@@ -4,6 +4,7 @@ import { message } from "antd";
 import "./styles/login.css";
 
 
+
 export function Login(){
     const [ID,setID] = useState<string>();
     const [password,setPassword] = useState<string>();
@@ -83,7 +84,7 @@ export function Login(){
       />
       <select
   
-  id ="selet"
+  id ="loginSelet"
   value={role}
   onChange={(e) => setRole(e.target.value)}
 >

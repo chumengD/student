@@ -1,0 +1,24 @@
+.Ball{
+    aspect-ratio: 1/1;
+    width:20px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+#red{
+    background-color: red;
+}
+
+#green{
+    background-color: green;
+}
+
+#grey{
+    background-color: grey;
+}
+
+#blue{
+    background-color: rgb(5, 188, 255);
+}
+

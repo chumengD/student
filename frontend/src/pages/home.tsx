@@ -1,9 +1,13 @@
 import "./styles/home.css"
 import {SearchBox} from "../components/search";
 import { Note } from "../components/textarea";
+import { useStates } from "../hooks/State";
+import { DetailModal } from "./detail";
 
 export function Home(){
-    return (<div className="homeContainer">
+    const {setIsDetail,isDetail}= useStates();
+    return (<>
+    <div className="homeContainer">
         <div className="homeBGContainer">
             <img className="homeBG" src="bg.png"/>
         </div>
@@ -26,6 +30,9 @@ export function Home(){
         <div className="functionContainer">
             <div className="functions"></div>
         </div>
-
-    </div>);
+        <button onClick={()=>setIsDetail(true)}>你好</button>
+    </div>
+    
+    {isDetail && <DetailModal/>}
+    </>);
 }

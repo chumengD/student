@@ -7,5 +7,5 @@ export interface student{
     from:string,
     contact:string,
     color:string,
-    note:string,
+    note?:string,
 }

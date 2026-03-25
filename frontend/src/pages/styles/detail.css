@@ -1,0 +1,75 @@
+
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal{
+    position: relative;
+    height: 80%;
+    width: 80%;
+    min-width: 600px;
+    min-height: 400px;
+    background-color: white;
+    border-radius: 32px;
+    display: flex;
+    
+}
+
+.coverContainer{
+    position: relative;
+    height: 30%;
+    aspect-ratio: 1 / 1;
+    border: 1px red solid;
+    border-radius: 50%;
+    margin-top: 6%;
+    margin-left: 10%;
+    user-select: none;
+}
+
+.cover{
+    position: relative;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+}
+
+.studentInfo{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 60%;
+    min-height: 250px;
+    /* border: 1px brown solid; */
+    margin-top: 4%;
+    margin-left: 7%;
+    margin-right: 7%;
+    user-select: none;
+    align-items: flex-start;
+    text-align: left;
+}
+
+ul{
+     list-style: none;
+     gap:2vh;
+}
+
+.UlInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    flex-grow: 0;
+    color: black;
+}
