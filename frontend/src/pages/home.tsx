@@ -16,6 +16,9 @@ export function Home(){
             <div className="searchBar"><SearchBox /></div>
         </div>
 
+        <button  style={{position:"absolute"}} onClick={()=>setIsDetail(true) }>你好</button>
+
+        <div className="mainLayout">
         <div className="recentContainer">
                 <div className="recent">
                     <div>最近查看</div>
@@ -30,7 +33,9 @@ export function Home(){
         <div className="functionContainer">
             <div className="functions"></div>
         </div>
-        <button onClick={()=>setIsDetail(true)}>你好</button>
+        
+        </div>
+        
     </div>
     
     {isDetail && <DetailModal/>}

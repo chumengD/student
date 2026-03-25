@@ -16,17 +16,20 @@
     position: relative;
     height: 80%;
     width: 80%;
-    min-width: 600px;
-    min-height: 400px;
-    background-color: white;
+    min-width: 900px;
+    min-height: 500px;
+    max-height: 600px;
+    background-color: #f5f6f7f7;
     border-radius: 32px;
     display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
     
 }
 
 .coverContainer{
     position: relative;
-    height: 30%;
+    height: 38%;
     aspect-ratio: 1 / 1;
     border: 1px red solid;
     border-radius: 50%;
@@ -45,17 +48,20 @@
     user-select: none;
 }
 
+
+
 .studentInfo{
     position: relative;
     display: flex;
     flex-direction: column;
     height: 50%;
-    width: 60%;
+    width: 52%;
     min-height: 250px;
     /* border: 1px brown solid; */
     margin-top: 4%;
-    margin-left: 7%;
-    margin-right: 7%;
+     margin-bottom: 4%;
+    margin-left: 8%;
+    margin-right: 5%;
     user-select: none;
     align-items: flex-start;
     text-align: left;
@@ -73,3 +79,48 @@ ul{
     flex-grow: 0;
     color: black;
 }
+
+.detailColor{
+    vertical-align: middle;
+    display: inline-block;
+    width: 16%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.detailTextareaContainer{
+    flex-direction: column;
+    
+    border: 1px red solid;
+    display: flex;
+    width:100%;
+    height: 35%;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+
+}
+
+.detailTextareaContainer::before {
+    content: "备注";
+    font-weight: bold;
+    color: #666;
+}
+
+
+.detailTextarea{
+    width: 90%;
+    height: 100%;
+    border: 1px rgb(11, 239, 26) solid;
+    background-color: white;
+    border-radius: 16px;
+    display: flex;
+    justify-content:flex-start;
+    padding: 5px;
+}
+
+
+

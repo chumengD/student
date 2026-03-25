@@ -1,9 +1,11 @@
 .Ball{
     aspect-ratio: 1/1;
-    width:20px;
+    width:25px;
     border-radius: 50%;
     align-items: center;
     justify-content: center;
+    margin: 0 auto; /* 在 antd 的容器内水平居中 */
+
 }
 
 #red{
@@ -22,3 +24,7 @@
     background-color: rgb(5, 188, 255);
 }
 
+
+.antSelect{
+    min-width:60px;
+}

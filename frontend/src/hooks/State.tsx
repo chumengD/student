@@ -9,7 +9,7 @@ const defaultStu:student ={
     grade:"大零",
     from:"樱公馆",
     contact:"暂无",
-    color:"white",
+    color:"red",
     note:"我是露娜大人的狗",
 }
 
@@ -20,6 +20,7 @@ function useStatesSource() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isDetail,setIsDetail] =useState<boolean>(false);
   const [student,setStudent] =useState<student>(defaultStu);
+  const [searchInput,setSearchInput] =useState<string>("");
   // 在这里新增状态，不需要去别的地方改 interface
   return {
     page,
@@ -30,6 +31,8 @@ function useStatesSource() {
     setIsDetail,
     student,
     setStudent,
+    searchInput,
+    setSearchInput,
   };
 }
 

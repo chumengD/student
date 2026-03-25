@@ -1,7 +1,9 @@
 import { useState } from "react";
 
+
 export function Note() {
   const [text, setText] = useState("");
+
 
   return (
     <div  className="textContainer">
@@ -12,7 +14,7 @@ export function Note() {
         placeholder="在这里写点什么..."
         style={{
           position:"relative",
-          width: "50%",
+          width: "100%",
           height: "100%",
           fontSize: "16px",
           borderRadius: "8px",
