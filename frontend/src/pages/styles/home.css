@@ -1,0 +1,77 @@
+.homeBGContainer {
+  height: 35vh; /* vh = 视口高度，1vh=1%屏幕高 */
+  overflow: hidden; /* 超出部分直接隐藏 */
+  position: relative;
+}
+
+/* 背景图：铺满容器，不变形 */
+.homeBG {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 自动裁剪，保持比例填满容器 */
+  display: block;
+}
+
+.homeBGContainer::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10vh; /* 淡出高度，可自己调 */
+  background: linear-gradient(to top, #ffffff, transparent);
+  /* #ffffff 是你页面的背景色，和页面保持一致才自然 */
+  pointer-events: none;
+}
+
+.searchContainer{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchBar{
+  position: relative;
+  width: 30%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  margin-top: -3em;
+}
+
+.recentContainer{
+  display: flex;
+  position: absolute;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  height: 70vh;
+  width: 24vw;
+  bottom: 0;
+  left: 0;
+  outline: none;
+  resize: none;
+}
+
+.textContainer{
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  justify-content: center;
+
+  width: 100vw;
+  height: 60vh;
+  margin-bottom: 5px;
+}
+
+.functionContainer{
+  display: flex;
+  position: absolute;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  height: 70vh;
+  width: 24vw;
+  bottom: 0;
+  right:0;
+  outline: none;
+  resize: none;
+}

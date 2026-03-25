@@ -1,0 +1,77 @@
+@font-face {
+  font-family: 'kuangCao';
+  src: url('/fz-kuangcao.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* 性能优化：在字体加载完成前先显示备用字体 */
+}
+
+.LoginContainer{
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.bg {
+    position: fixed;   /* 改这里 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+}
+
+.bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 防止变形 */
+}
+
+.iconShow{
+    position: relative;
+    /* transform: scale(0.5); */
+    top:1em;
+}
+
+.iconShow img {
+    width: 25vw; /* 直接在这里缩小物理尺寸，释放文档流空间 */
+    height: auto;
+}
+
+
+#input{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    margin-top: -6em;
+}
+
+
+.title{
+    position: relative;
+    display: flex;
+    top:1.8em;
+    color: brown;
+    font-size: 5em;
+    font-family: "kuangCao";
+
+}
+
+
+#selet{
+    width:170px;
+}
+
+.loginInput{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    margin-top: 12em;
+}
