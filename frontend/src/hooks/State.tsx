@@ -2,7 +2,7 @@ import { useState, createContext, useContext, type ReactNode } from "react";
 
 // 把所有状态逻辑放在这里，方便 TS 推断
 function useStatesSource() {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [isLogin, setIsLogin] = useState(false);
   // 在这里新增状态，不需要去别的地方改 interface
   const [user, setUser] = useState("Guest"); 
