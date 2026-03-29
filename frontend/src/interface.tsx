@@ -11,6 +11,13 @@ export interface student{
     scores:course[]
 }
 
+export interface test{
+    stuNumber:number,
+    course:number,
+    courseName:string[],
+    students:new_student[]
+}
+
 export interface new_student{
     name:string,
     id:number,

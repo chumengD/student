@@ -103,3 +103,22 @@
   box-sizing: border-box;
   padding: 10px;
 }
+
+.pic1{
+  position: absolute;
+  top:35%;
+  left:25%;
+}
+
+.pic2{
+  position: absolute;
+  top:36%;
+  right:25%;
+}
+
+.icon{
+  position: absolute;
+  top:0;
+  left: 35%;
+  transform: translate();
+}

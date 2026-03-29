@@ -34,6 +34,19 @@ export function Home(){
             <img className="homeBG" src="bg.png"/>
         </div>
 
+        <div className="pic1">
+            <img  width={100} src="/企鹅.png"/>
+        </div>
+
+        <div className="pic2">
+            <img  width={100} src="/nns.png"/>
+        </div>
+
+        <div className="icon">
+            <img width={500} src="/杭电icon.png"/>
+        </div>
+
+
         {/* <div className="searchContainer">
             <div className="searchBar"><SearchBox /></div>
         </div> */}
