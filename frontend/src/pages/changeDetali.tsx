@@ -1,11 +1,11 @@
 import "./styles/detail.css"
 import { useStates } from "../hooks/State";
 import { useState } from "react";
-import { ColorSelect } from "../components/select";
+import { Button ,message,Popconfirm} from "antd";
 
-export function DetailModal(){
-    const {student,setIsDetail,setStudent} =useStates();
-    const [detailColor,setDetailColor] =useState<string>();
+export function ChangeModal(){
+    const {student,setIsDetail,setStudent,setIsChange,setIsDelete} =useStates();
+    
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
         // 关键：只有点击的对象是 overlay 本身时才触发关闭
@@ -18,6 +18,11 @@ export function DetailModal(){
     return(
     <div className="overlay" onClick={handleOverlayClick}>
         <div className="modal">
+
+             <div className="closebut" onClick={()=>{
+                setIsDetail(false);
+                setIsChange(false);
+                }} ><img style={{width:"40px"}} src="/close.png"/></div>
 
             <div className="coverContainer">
                 <img  className="cover" src="/luna.png"/>
@@ -50,6 +55,13 @@ export function DetailModal(){
                         />
         </div>
 
+        <div className="changeButoons">
+     
+        <Button type="primary"   className="deleteBut" onClick={()=>{
+            
+        }}>确认修改</Button>
         </div>
-    </div>)
+
+    </div>
+</div>)
 }

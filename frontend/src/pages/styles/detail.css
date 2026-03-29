@@ -14,11 +14,10 @@
 
 .modal{
     position: relative;
-    height: 80%;
+    height: 80vh;
     width: 80%;
     min-width: 900px;
     min-height: 500px;
-    max-height: 600px;
     background-color: #f5f6f7f7;
     border-radius: 32px;
     display: flex;
@@ -93,15 +92,14 @@ ul{
 
 .detailTextareaContainer{
     flex-direction: column;
-    
-    border: 1px red solid;
+    /* border: 1px red solid; */
     display: flex;
     width:100%;
     height: 35%;
     justify-content: center;
     align-items: center;
     padding: 2px;
-
+    margin-top: -60px;
 }
 
 .detailTextareaContainer::before {
@@ -114,13 +112,36 @@ ul{
 .detailTextarea{
     width: 90%;
     height: 100%;
-    border: 1px rgb(11, 239, 26) solid;
+    /* border: 1px rgb(11, 239, 26) solid; */
     background-color: white;
     border-radius: 16px;
     display: flex;
     justify-content:flex-start;
     padding: 5px;
+    font-size: 16px;
 }
 
+.changeButoons{
+    display: flex;
+    align-content:space-between;
+    width: 100%;
+    height: 32px;
+    /* border: 1px green solid; */
+    margin-top: 16px;
+}
 
+.changeBut{
+    margin-left: 4.5em;
+}
 
+.deleteBut{
+    position: absolute;
+    right: 4.5em;
+}
+
+.closebut{
+    position: absolute;
+    right: 2em;
+    top:1em;
+
+}

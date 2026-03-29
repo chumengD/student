@@ -24,6 +24,7 @@ export function Login(){
 
       if (ID.length!==8){
         message.error("输入的不是8位数字!",4);
+        return ;
       }
 
       const loginPayload ={

@@ -6,7 +6,7 @@ const defaultStu:student ={
     id:26050907,
     appearance:"/luna.png",
     department:"艺术学院",
-    grade:"大零",
+    grade:"大一",
     from:"樱公馆",
     contact:"暂无",
     color:"red",
@@ -17,8 +17,10 @@ const defaultStu:student ={
 // 把所有状态逻辑放在这里，方便 TS 推断
 function useStatesSource() {
   const [page, setPage] = useState<number>(0);
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDetail,setIsDetail] =useState<boolean>(false);
+  const [isChange,setIsChange] =useState<boolean>(false);
+  const [isDelete,setIsDelete] =useState<boolean>(false);
   const [student,setStudent] =useState<student>(defaultStu);
   const [searchInput,setSearchInput] =useState<string>("");
   // 在这里新增状态，不需要去别的地方改 interface
@@ -29,10 +31,15 @@ function useStatesSource() {
     setIsLogin,
     isDetail,
     setIsDetail,
+    isChange,
+    setIsChange,
+    isDelete,
+    setIsDelete,
     student,
     setStudent,
     searchInput,
     setSearchInput,
+    
   };
 }
 
