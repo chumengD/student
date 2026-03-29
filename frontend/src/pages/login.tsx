@@ -4,6 +4,7 @@ import { message } from "antd";
 import "./styles/login.css";
 
 
+
 export function Login(){
     const [ID,setID] = useState<string>();
     const [password,setPassword] = useState<string>();
@@ -23,6 +24,7 @@ export function Login(){
 
       if (ID.length!==8){
         message.error("输入的不是8位数字!",4);
+        return ;
       }
 
       const loginPayload ={
@@ -83,7 +85,7 @@ export function Login(){
       />
       <select
   
-  id ="selet"
+  id ="loginSelet"
   value={role}
   onChange={(e) => setRole(e.target.value)}
 >

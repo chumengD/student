@@ -10,7 +10,7 @@ int main()
 {
     webview::webview w(true, nullptr);
     w.set_title("实践作业");
-    w.set_size(800, 600, WEBVIEW_HINT_NONE);
+    w.set_size(1200, 800, WEBVIEW_HINT_NONE);
 
     // 绑定 C++ 函数，前端可直接调用 window.add(a, b)
     w.bind("greet", [](string s) -> string {

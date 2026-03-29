@@ -1,0 +1,147 @@
+
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal{
+    position: relative;
+    height: 80vh;
+    width: 80%;
+    min-width: 900px;
+    min-height: 500px;
+    background-color: #f5f6f7f7;
+    border-radius: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    
+}
+
+.coverContainer{
+    position: relative;
+    height: 38%;
+    aspect-ratio: 1 / 1;
+    border: 1px red solid;
+    border-radius: 50%;
+    margin-top: 6%;
+    margin-left: 10%;
+    user-select: none;
+}
+
+.cover{
+    position: relative;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+}
+
+
+
+.studentInfo{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 52%;
+    min-height: 250px;
+    /* border: 1px brown solid; */
+    margin-top: 4%;
+     margin-bottom: 4%;
+    margin-left: 8%;
+    margin-right: 5%;
+    user-select: none;
+    align-items: flex-start;
+    text-align: left;
+}
+
+ul{
+     list-style: none;
+     gap:2vh;
+}
+
+.UlInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    flex-grow: 0;
+    color: black;
+}
+
+.detailColor{
+    vertical-align: middle;
+    display: inline-block;
+    width: 16%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.detailTextareaContainer{
+    flex-direction: column;
+    /* border: 1px red solid; */
+    display: flex;
+    width:100%;
+    height: 35%;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    margin-top: -60px;
+}
+
+.detailTextareaContainer::before {
+    content: "备注";
+    font-weight: bold;
+    color: #666;
+}
+
+
+.detailTextarea{
+    width: 90%;
+    height: 100%;
+    /* border: 1px rgb(11, 239, 26) solid; */
+    background-color: white;
+    border-radius: 16px;
+    display: flex;
+    justify-content:flex-start;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.changeButoons{
+    display: flex;
+    align-content:space-between;
+    width: 100%;
+    height: 32px;
+    /* border: 1px green solid; */
+    margin-top: 16px;
+}
+
+.changeBut{
+    margin-left: 4.5em;
+}
+
+.deleteBut{
+    position: absolute;
+    right: 4.5em;
+}
+
+.closebut{
+    position: absolute;
+    right: 2em;
+    top:1em;
+
+}

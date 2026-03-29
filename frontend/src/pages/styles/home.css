@@ -1,7 +1,13 @@
+.homeContainer{
+  height: 100vh;
+  width: 100vw;
+}
+
 .homeBGContainer {
-  height: 35vh; /* vh = 视口高度，1vh=1%屏幕高 */
+  height: 33vh; /* vh = 视口高度，1vh=1%屏幕高 */
   overflow: hidden; /* 超出部分直接隐藏 */
   position: relative;
+  z-index: -1;
 }
 
 /* 背景图：铺满容器，不变形 */
@@ -29,6 +35,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: -5em;
 }
 
 .searchBar{
@@ -36,42 +43,63 @@
   width: 30%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  margin-top: -3em;
+  margin-top: -5em;
 }
+
+.mainLayout {
+  display: flex;
+  /* justify-content: space-between;  <-- 删除这一行，因为它强行把空白塞在中间 */
+  justify-content: center;            /* 让所有内容整体居中 */
+  align-items: stretch;
+  height: 60vh;
+  padding: 0 20px;
+  gap: 20px;
+  margin-bottom: 2px;
+  margin-top: 5vh;
+  bottom: 0;
+}
+
 
 .recentContainer{
   display: flex;
-  position: absolute;
   border: 1px solid #ccc;
   border-radius: 8px;
-  height: 70vh;
-  width: 24vw;
+  height: 100%;
+  width: 22vw;
+  flex-shrink: 0;
   bottom: 0;
-  left: 0;
   outline: none;
   resize: none;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
-.textContainer{
-  position: absolute;
+.textareaContainer{
+  position: relative;
   display: flex;
   bottom: 0;
   justify-content: center;
+  height: 80%;
+  width: 100%;
+  flex:1;
+  align-self: flex-end;
+}
 
-  width: 100vw;
-  height: 60vh;
-  margin-bottom: 5px;
+.textContainer{
+  width: 100%;
+  height: 100%;
 }
 
 .functionContainer{
   display: flex;
-  position: absolute;
   border: 1px solid #ccc;
   border-radius: 8px;
-  height: 70vh;
-  width: 24vw;
+  height:100%;
+  width: 22vw;
   bottom: 0;
-  right:0;
   outline: none;
   resize: none;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 10px;
 }

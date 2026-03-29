@@ -7,5 +7,23 @@ export interface student{
     from:string,
     contact:string,
     color:string,
-    note:string,
+    note?:string,
+    scores:course[]
 }
+
+export interface new_student{
+    name:string,
+    id:number,
+    scores:course[],
+    average:number,
+    sum:number,
+}
+
+export interface course{
+    semester:number,
+    name:string,
+    score:number,
+}
+
+
+
