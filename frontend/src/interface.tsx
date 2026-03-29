@@ -8,4 +8,5 @@ export interface student{
     contact:string,
     color:string,
     note:string,
+    a:string,
 }
