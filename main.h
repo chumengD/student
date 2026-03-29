@@ -11,15 +11,28 @@
 #include <string>   // C++ 字符串必须包含这个头文件
 using namespace std;
 
-class Student {  // C++ 类名推荐首字母大写
-public:
-    // 成员变量（对应你原来的字段）
-    string name;
-    int id;
-    string department;
-    string grade;
-    string from;
-    string contact;
-    string color;
-    string note;
+
+struct StudentNode {
+    long num;              // 学号
+    char name[NAME_LEN];   // 姓名
+    float score[COURSE_NUM]; // 课程成绩
+    float sum;             // 总分
+    float aver;            // 平均分
+
+    struct StudentNode* next;
+};
+typedef struct StudentNode STUNode;
+
+struct text {
+    int student_num;
+    int course_num;
+    string course[];
+    StudentNode* head;
+};
+
+struct return_text {
+    int student_num;
+    int course_num;
+    string course[];
+    StudentNode* head;
 };
