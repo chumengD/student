@@ -12,6 +12,7 @@ export interface student{
 }
 
 export interface test{
+    testName:string,
     stuNumber:number,
     course:number,
     courseName:string[],

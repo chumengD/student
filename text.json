@@ -1,0 +1,18 @@
+
+
+[
+    {
+    "student_num":2,
+    "course_num":3,
+    "course":["高数","视听说","英语读写"],
+    "students":[{
+            "name":"a",
+            "id":25050907,
+            "scores":[12,21,54],
+            "average":50,
+            "sum":120
+        },{}]
+    },
+{}
+
+]

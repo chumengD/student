@@ -56,10 +56,7 @@ STUNode* CreateStudent(long num, const char* name, float scores[], int courseCou
     return node;
 }
 
-STUNode* return_CreateStudent() {
-    const result = CreateStudent()
-        return serialixeLIst(result);
-}
+
 
 // ==========================
 // 2. 尾部追加学生（前端“添加”按钮直接用）

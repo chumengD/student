@@ -6,6 +6,7 @@ import { DetailModal } from "./detail";
 import { ChangeModal } from "./changeDetali";
 import { useEffect, useState } from "react";
 import {readSelfNote} from "../hooks/selfNote.js"
+import { Button } from "antd";
  
 export function Home(){
     const {setIsDetail,isDetail,setPage,isChange}= useStates();
@@ -68,8 +69,8 @@ export function Home(){
         <div className="functionContainer">
             <div className="functions">
                 <div className="function">功能区</div>
-                <ul>
-                    <li>添加考试</li>
+                <ul className="functionUl">
+                    <li><Button type="primary" onClick={()=>setPage(1)}>添加考试</Button></li>
                 </ul>
             </div>
         </div>
