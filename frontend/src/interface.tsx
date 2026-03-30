@@ -11,19 +11,25 @@ export interface student{
     scores:course[]
 }
 
+//返回给后端，需要处理的数据
+export interface test{
+    testName:string,
+    stuNumber:number,
+    course:number,
+    courseName:string[],
+    students:new_student[]
+}
+
+
+//单个学生的数据
 export interface new_student{
     name:string,
     id:number,
-    scores:course[],
+    scores:number[],
     average:number,
     sum:number,
 }
 
-export interface course{
-    semester:number,
-    name:string,
-    score:number,
-}
 
 
 

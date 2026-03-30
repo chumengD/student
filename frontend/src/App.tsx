@@ -3,8 +3,8 @@ import './App.css'
 import { useStates } from './hooks/State'
 import { Login } from './pages/login';
 import { Home } from './pages/home';
-import { SearchResult } from './pages/searchResult';
 import { message } from 'antd';
+import { CreateText } from './pages/createTest';
 
 
 
@@ -32,7 +32,8 @@ function App() {
   <div className='container'>
     {isLogin?
     page===0? <Home />:
-    page===1? <SearchResult />:
+    page===1? <CreateText />:
+
     <>未知错误</>
     :
     <Login/>

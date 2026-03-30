@@ -3,5 +3,4 @@
   width: 100%;
   min-height: 100svh; /* 将 100vh 改为 100svh，与 #root 对齐 */
   box-sizing: border-box; 
-  overflow-x: hidden; /* 取消注释，作为最后一道防线 */
 }

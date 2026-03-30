@@ -253,16 +253,17 @@ StatResult StatisticAnalysis(int n, int m, STUNode* stu) {
     StatResult res = { 0 };
     if (head == NULL) return res;
     STUNode* p = head;
-    res.maxSum = p->sum;
-    res.minSum = p->sum;
+    //res.maxSum = p->sum;
+    //res.minSum = p->sum;
     float total = 0;
     while (p) {
-        if (p->sum > res.maxSum) res.maxSum = p->sum;
-        if (p->sum < res.minSum) res.minSum = p->sum;
+        //if (p->sum > res.maxSum) res.maxSum = p->sum;
+        //if (p->sum < res.minSum) res.minSum = p->sum;
+        //if (p->aver >= 60) res.passCount++;
+        //else res.failCount++;
+        //res.count++;
+
         total += p->sum;
-        if (p->aver >= 60) res.passCount++;
-        else res.failCount++;
-        res.count++;
         p = p->next;
     }
     if (res.count > 0) res.avgSum = total / res.count;
@@ -299,8 +300,6 @@ json ConvertStatToJson(StatResult res)
 {
     json j;
     j["count"] = res.count;
-    j["maxSum"] = res.maxSum;
-    j["minSum"] = res.minSum;
     j["avgSum"] = res.avgSum;
     j["passCount"] = res.passCount;
     j["failCount"] = res.failCount;

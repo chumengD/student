@@ -23,13 +23,9 @@ typedef struct StudentNode {
 } STUNode;
 
 // 前端统计结果结构体
-typedef struct text {
+typedef struct  {
     int count;
-    float maxSum;
-    float minSum;
     float avgSum;
-    int passCount;
-    int failCount;
 } StatResult;
 
 extern STUNode* head;  // 全局链表头
