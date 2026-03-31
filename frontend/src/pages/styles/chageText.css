@@ -16,10 +16,12 @@
     align-items: center;
 }
 
+
+
 .testForm{
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 
@@ -30,10 +32,17 @@
 .Mytable {
     width: 100%; /* 让表格宽度撑满 */
     display: block; /* 覆盖之前的 flex 影响 */
-    text-align: left;
+    text-align: center;
 }
 
 
 .css-var-root.ant-form-css-var {
    --ant-form-item-margin-bottom:8px
 }
+
+.returnArrow{
+    position: absolute;
+    left: 0;
+    top:0;
+}
+

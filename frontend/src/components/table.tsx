@@ -1,33 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, InputNumber, Form, Button } from 'antd';
+import { Table, Input, InputNumber, Form} from 'antd';
 import { useStates } from '../hooks/State';
 import "../pages/styles/chageText.css"
 
-interface MyTableProps {
-  len: number;       // 学生人数
-  courseNum: number; // 科目数量
-  courseName:string[];
-}
-
-interface DataType {
-  name: string;    // 学生姓名
-  id: number;      // 学号
-  scores: number[]; // 各科成绩数组
-}
-
-export const MyTable: React.FC<MyTableProps> = () => {
+export const MyTable: React.FC = () => {
   const [current, setCurrent] = useState(1); // 默认第一页
   const pageSize = 7; // 定义每页行数
   const {test,setTest} =useStates();
   const [form] = Form.useForm();
 
-  // 1. 直接计算 originData，不再使用 useState 和 useEffect 存储它
-  // 只要 len 或 scoresNum 变了，这段代码会在渲染时自然重新执行
-  // const originData: DataType[] = Array.from({ length: test.stuNumber }).map((_, i) => ({
-  //   name: `学生 ${i + 1}`,
-  //   id: 250907 + i,
-  //   scores: Array(test.course).fill(0),
-  // }));
 
   const getGlobalIndex = (index: number) => (current - 1) * pageSize + index;
 
@@ -54,7 +35,7 @@ export const MyTable: React.FC<MyTableProps> = () => {
     {
       title: '学号',
       render: (_: any, __: any, index: number) => (
-        <Form.Item name={['students', index, 'id']} noStyle>
+        <Form.Item name={['students', getGlobalIndex(index), 'id']} noStyle>
           <InputNumber />
         </Form.Item>
       ),
@@ -62,10 +43,9 @@ export const MyTable: React.FC<MyTableProps> = () => {
     ...Array.from({ length: test.course }).map((_, sIndex) => ({
       title: test.courseName[sIndex],
       render: (_: any, __: any, index: number) => (
-        <Form.Item name={['students', index, 'scores', sIndex]} noStyle>
+        <Form.Item name={['students', getGlobalIndex(index), 'scores', sIndex]} noStyle>
           <InputNumber 
           changeOnWheel={true}
-          defaultValue={0}
           min={0} 
           max={100} />
           
@@ -75,7 +55,17 @@ export const MyTable: React.FC<MyTableProps> = () => {
   ];
 
   return (
-    <Form form={form} onFinish={(v) => console.log(v.students)} className='Mytable'>
+    <Form 
+    
+    form={form}
+    onFinish={(v) => console.log(v.students)} 
+    className='Mytable'
+    onValuesChange={(_, allValues) => {
+        setTest({
+          ...test,
+          students: allValues.students // 将 Form 维护的完整数组传回给全局
+        });
+      }}>
       <Table
         
         dataSource={test.students} // 直接使用计算出来的数组
