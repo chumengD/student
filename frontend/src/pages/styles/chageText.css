@@ -3,8 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+   
 }
 
 
@@ -20,8 +19,7 @@
 .testForm{
     width: 100%;
     display: flex;
-    text-align: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 
@@ -29,3 +27,13 @@
     width: 100%;
 }
 
+.Mytable {
+    width: 100%; /* 让表格宽度撑满 */
+    display: block; /* 覆盖之前的 flex 影响 */
+    text-align: left;
+}
+
+
+.css-var-root.ant-form-css-var {
+   --ant-form-item-margin-bottom:8px
+}

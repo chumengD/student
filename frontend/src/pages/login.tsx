@@ -59,7 +59,7 @@ export function Login(){
 
         <form onSubmit={handleSubmit} id="input">
 
-      <label htmlFor="digit8" className="title">杭电学生管理系统</label>
+      <label htmlFor="digit8" className="title">杭电学生成绩管理系统</label>
       <div className="loginInput">
       <input
         type="text"

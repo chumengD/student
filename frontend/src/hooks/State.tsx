@@ -1,5 +1,5 @@
 import { useState, createContext, useContext, type ReactNode } from "react";
-import { type student } from "../interface";
+import { type student ,type test} from "../interface";
 
 const defaultStu:student ={
     name:"樱小路露娜",
@@ -23,6 +23,13 @@ function useStatesSource() {
   const [isDelete,setIsDelete] =useState<boolean>(false);
   const [student,setStudent] =useState<student>(defaultStu);
   const [searchInput,setSearchInput] =useState<string>("");
+  const [test,setTest] =useState<test>({
+          testName:"",
+          stuNumber:0,
+          course:0,
+          courseName:[],
+          students:[],
+      });
   // 在这里新增状态，不需要去别的地方改 interface
   return {
     page,
@@ -39,7 +46,8 @@ function useStatesSource() {
     setStudent,
     searchInput,
     setSearchInput,
-    
+    test,
+    setTest,
   };
 }
 

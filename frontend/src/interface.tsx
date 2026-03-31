@@ -26,8 +26,8 @@ export interface new_student{
     name:string,
     id:number,
     scores:number[],
-    average:number,
-    sum:number,
+    average?:number,
+    sum?:number,
 }
 
 

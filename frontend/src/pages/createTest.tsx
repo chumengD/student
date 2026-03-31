@@ -2,6 +2,8 @@ import "./styles/chageText.css";
 import { type test ,type new_student} from "../interface";
 import { useState ,useEffect} from "react";
 import { FormDisabledDemo } from "../components/inupt";
+import { MyTable } from "../components/table";
+import { useStates } from "../hooks/State";
 
 import {
   Button,
@@ -11,24 +13,14 @@ import {
   InputNumber,
 } from 'antd';
 
+
 const { RangePicker } = DatePicker;
 
 
 export function CreateText(){
-    const [test,SetTest] =useState<test>({
-        testName:"",
-        stuNumber:0,
-        course:0,
-        courseName:[],
-        students:[],
-    });
+    const {test,setTest} =useStates();
 
-
-
-    useEffect(()=>{
-
-    },[test.course])
-
+    
 
     return (<div className="testContainer">
         <div className="create">创建考试</div>
@@ -64,12 +56,12 @@ export function CreateText(){
 
         </form> */}
 
-    <div className='testForm'>
+    {/* <div className='testForm'> */}
       <Form
-        labelCol={{ span: 6 }}
+        labelCol={{ span: 5 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
-        style={{ maxWidth: 600 }}
+        style={{ width: '90%', maxWidth: '1200px' }}
       >
 
         <Form.Item label="考试名称">
@@ -78,7 +70,7 @@ export function CreateText(){
         id="testName"
         name="testName"
         value={test.testName}
-        onChange={(e)=>{SetTest({
+        onChange={(e)=>{setTest({
         ...test,
         testName: e.currentTarget.value
       })}
@@ -94,9 +86,13 @@ export function CreateText(){
 
         <Form.Item label="科目数">
           <InputNumber
+          changeOnWheel={true}
+          max={10}
+          min={1}
+          defaultValue={1}
             value={test.course}
             onChange={(value) =>
-            SetTest({
+            setTest({
                 ...test,
                 course: value || 0
             })
@@ -104,6 +100,7 @@ export function CreateText(){
         />
         </Form.Item>
 
+        {/*科目相关信息*/}
         {Array.from({length:test.course}).map(( _,index)=>(
             <Form.Item key={index} label={`科目 ${index+1}`}>
                     <Input
@@ -112,7 +109,7 @@ export function CreateText(){
                     const newCourses = [...test.courseName];
                     newCourses[index] = e.target.value;
 
-                    SetTest({
+                    setTest({
                     ...test,
                     courseName: newCourses
                     });
@@ -121,40 +118,40 @@ export function CreateText(){
             </Form.Item>
         ))}
 
-        <Form.Item label="考生人数">
+    <Form.Item label="考生人数">
           <InputNumber
+            changeOnWheel={true}
+            max={50}
+            min={1}
+            defaultValue={1}
             value={test.stuNumber}
-            onChange={(value) =>
-            SetTest({
+            onChange={(value) => {
+              const num = value || 0;
+              // 使用 Array.from 建立 new_student 类型的初始数组
+              const initialStudents: new_student[] = Array.from({ length: num }, (_, i) => ({
+                id: i + 25050907,        // 默认生成一个 ID
+                name: `学生 ${i+1}`,
+                scores: [],
+              }));
+
+              setTest({
                 ...test,
-                stuNumber: value || 0
-            })
-            }
-        />
-        </Form.Item>
+                stuNumber: num,
+                students: initialStudents // 同步更新学生数组
+              });
+            }}
+          />
+    </Form.Item>
 
-        {Array.from({length:test.stuNumber}).map(( _,index)=>(
-            <Form.Item key={index} label={`学生姓名 ${index+1}`}>
-                    <Input
-                value={test.students[index].name || ""}
-                onChange={(e) => {
-                    const student = [...test.students[index]];
-                    student.name  = e.target.value;
+    <MyTable len={test.stuNumber} courseNum={test.course}  courseName={test.courseName}/>
 
-                    SetTest({
-                    ...test,
-                    students[index].name : name
-                    });
-                }}
-                />
-            </Form.Item>
-        ))}    
+          
 
-        <Form.Item label="Button">
+        <Form.Item >
           <Button >创建</Button>
         </Form.Item>
       </Form>
-    </div>
+    {/* </div> */}
         
 
     </div>)
