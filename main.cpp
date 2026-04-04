@@ -1,6 +1,28 @@
 ﻿// CMake_student_management.cpp: 定义应用程序的入口点。
 //
 
+int main()
+{
+    webview::webview w(true, nullptr);
+    w.set_title("实践作业");
+    w.set_size(800, 600, WEBVIEW_HINT_NONE);
+
+    // 绑定 C++ 函数，前端可直接调用 window.add(a, b)
+    w.bind("submitTest", [](string s) -> string {
+        string data = "hello " + s + "\\n its a good day";
+        json response;
+        response["message"] = data;
+        return response.dump();
+
+        });
+
+
+    w.navigate("http://localhost:5173"); // 开发环境下指向 Vite 端口
+    w.run();
+    return 0;
+}
+
+
 // 1. 创建新学生节点
 // ==========================
 STUNode* CreateStudent(long num, const char* name, float scores[], int courseCount) {
@@ -305,3 +327,4 @@ json ConvertStatToJson(StatResult res)
     j["failCount"] = res.failCount;
     return j;
 }
+
