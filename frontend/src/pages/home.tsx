@@ -71,6 +71,7 @@ export function Home(){
                 <div className="function">功能区</div>
                 <ul className="functionUl">
                     <li><Button type="primary" onClick={()=>setPage(1)}>添加考试</Button></li>
+                    <li><Button type="primary" onClick={()=>setPage(2)}>查看考试</Button></li>
                 </ul>
             </div>
         </div>

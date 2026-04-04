@@ -24,12 +24,26 @@ function useStatesSource() {
   const [student,setStudent] =useState<student>(defaultStu);
   const [searchInput,setSearchInput] =useState<string>("");
   const [test,setTest] =useState<test>({
-          testName:"",
-          stuNumber:0,
-          course:0,
-          courseName:[],
-          students:[],
+          testName:"期中考",
+          stuNumber:2,
+          course:2,
+          courseName:["高数","英语"],
+          students:[{
+            name:"wwww",
+            id:111,
+            scores:[12,13],
+            average:12.5,
+            sum:25
+          },{
+            name:"aaa",
+            id:222,
+            scores:[13,14],
+            average:13.5,
+            sum:27
+          }],
       });
+  const [stuList,setStuList] =useState<student[]>([{},{}])
+    
   // 在这里新增状态，不需要去别的地方改 interface
   return {
     page,
@@ -48,6 +62,8 @@ function useStatesSource() {
     setSearchInput,
     test,
     setTest,
+    stuList,
+    setStuList
   };
 }
 
