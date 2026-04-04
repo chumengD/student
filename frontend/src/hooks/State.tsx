@@ -16,13 +16,52 @@ const defaultStu:student ={
 
 // 把所有状态逻辑放在这里，方便 TS 推断
 function useStatesSource() {
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(0);
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isDetail,setIsDetail] =useState<boolean>(false);
   const [isChange,setIsChange] =useState<boolean>(false);
   const [isDelete,setIsDelete] =useState<boolean>(false);
   const [student,setStudent] =useState<student>(defaultStu);
   const [searchInput,setSearchInput] =useState<string>("");
+  const [testList,setTestList] =useState([{
+          testName:"期中考",
+          stuNumber:2,
+          course:10,
+          courseName:["高数","英语","3","4","5","6","7","8","9","10"],
+          students:[{
+            name:"wwww",
+            id:111,
+            scores:[12,13,3,4,5,6,7,8,9,0],
+            average:12.5,
+            sum:25
+          },{
+            name:"aaa",
+            id:222,
+            scores:[13,14,3,4,5,6,7,8,9,0],
+            average:13.5,
+            sum:27
+          }],
+      },
+      {
+          testName:"期末考",
+          stuNumber:2,
+          course:2,
+          courseName:["高数","离散数学"],
+          students:[{
+            name:"wwww",
+            id:111,
+            scores:[12,13],
+            average:12.5,
+            sum:25
+          },{
+            name:"aaa",
+            id:222,
+            scores:[13,14],
+            average:13.5,
+            sum:27
+          }],
+      }
+    ])
   const [test,setTest] =useState<test>({
           testName:"期中考",
           stuNumber:2,
@@ -42,7 +81,6 @@ function useStatesSource() {
             sum:27
           }],
       });
-  const [stuList,setStuList] =useState<student[]>([{},{}])
     
   // 在这里新增状态，不需要去别的地方改 interface
   return {
@@ -62,8 +100,8 @@ function useStatesSource() {
     setSearchInput,
     test,
     setTest,
-    stuList,
-    setStuList
+    testList,
+    setTestList,
   };
 }
 

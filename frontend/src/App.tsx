@@ -29,14 +29,7 @@ function App() {
   // handleDelete();
   // },[isDelete])
 
-  useEffect(()=>{
-    const getTest = async ()=>{
-      const data =await window.getTest();
-      const serialiseData =JSON.parse(data)
-      setStuList(serialiseData)
-    }
-    getTest();
-  },[])
+ 
   
 
   return (<>

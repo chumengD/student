@@ -9,7 +9,7 @@ import {readSelfNote} from "../hooks/selfNote.js"
 import { Button } from "antd";
  
 export function Home(){
-    const {setIsDetail,isDetail,setPage,isChange}= useStates();
+    const {setPage,setTestList,testList,setTest}= useStates();
     const [note,setNote] =useState<string>("");
     
    useEffect(() => {
@@ -27,6 +27,16 @@ export function Home(){
         // 3. 立即执行
         fetchData();
     }, []); 
+
+    //获取全部考试
+    useEffect(()=>{
+    const getTest = async ()=>{
+      const data =await window.getTest();
+      const serialiseData =JSON.parse(data)
+      setTestList(serialiseData)
+    }
+    getTest();
+  },[])
 
 
     return (<>
@@ -56,10 +66,16 @@ export function Home(){
 
         <div className="mainLayout">
         <div className="recentContainer">
-                <div className="recent">
+
                     <div>全部考试</div>
-                    <ul></ul>
-                </div>
+                    <ul>
+                        {testList.map((item,index)=>( 
+                            <li key={index}><Button type="primary" onClick={()=>{
+                                setPage(2)
+                                setTest(testList[index])
+                                }}>{item.testName}</Button></li>))}
+                    </ul>
+      
         </div>
 
         <div className="textareaContainer">
@@ -70,8 +86,8 @@ export function Home(){
             <div className="functions">
                 <div className="function">功能区</div>
                 <ul className="functionUl">
-                    <li><Button type="primary" onClick={()=>setPage(1)}>添加考试</Button></li>
-                    <li><Button type="primary" onClick={()=>setPage(2)}>查看考试</Button></li>
+                    <li><Button type="primary"  onClick={()=>setPage(1)}>添加考试</Button></li>
+                    <li><Button type="primary"  danger onClick={()=>{}}>删除考试</Button></li>
                 </ul>
             </div>
         </div>
