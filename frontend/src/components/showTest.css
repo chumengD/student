@@ -1,0 +1,19 @@
+.returnArrow{
+    position: absolute;
+    left: 0;
+    top:0;
+}
+
+.showTestName{
+    position: relative;
+    display: flex;
+    height: 2em;
+    font-size: 3em;
+    justify-content: center; /* 水平居中 */
+    align-items: center;
+}
+
+.showTable{
+    position: relative;
+
+}
