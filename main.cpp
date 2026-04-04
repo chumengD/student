@@ -1,26 +1,104 @@
-﻿// CMake_student_management.cpp: 定义应用程序的入口点。
-//
+﻿#include "CMake_student_management.h"
+#include <webview>
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
 
-// 1. 创建新学生节点
-// ==========================
-STUNode* CreateStudent(long num, const char* name, float scores[], int courseCount) {
+int main()
+{
+    webview::webview w(true, nullptr);
+    w.set_title("实践作业");
+    w.set_size(800, 600, WEBVIEW_HINT_NONE);
+
+    // 提交考试数据（完全匹配前端 test 接口）
+    w.bind("submitTest", [](string jsonStr) -> string {
+        try {
+            json req = json::parse(jsonStr);
+
+            // 读取前端 test 接口所有字段
+            string testName = req["testName"];
+            int stuNumber = req["stuNumber"];
+            int course = req["course"];
+            vector<string> courseName = req["courseName"];
+            json studentsJson = req["students"];
+
+            // 清空原有链表
+            STUNode* p = head;
+            while (p != NULL) {
+                STUNode* temp = p;
+                p = p->next;
+                free(temp);
+            }
+            head = NULL;
+
+            // 批量添加学生（匹配 new_student 接口）
+            for (auto& item : studentsJson) {
+                int id = item["id"];
+                string name = item["name"];
+                vector<float> scoresVec = item["scores"];
+
+                float scores[COURSE_NUM] = { 0 };
+                for (int i = 0; i < scoresVec.size() && i < COURSE_NUM; i++) {
+                    scores[i] = scoresVec[i];
+                }
+
+                STUNode* node = CreateStudent(id, name.c_str(), scores, course);
+                AppendRecord(&head, node);
+            }
+
+            // 保存到文件
+            WritetoFile(head, course);
+
+            // 返回成功结果
+            json res;
+            res["code"] = 200;
+            res["msg"] = "提交成功";
+            res["stuCount"] = GetStudentCount(head);
+            return res.dump();
+        }
+        catch (...) {
+            json err;
+            err["code"] = 500;
+            err["msg"] = "数据格式错误";
+            return err.dump();
+        }
+        });
+
+    // 获取全部学生数据（返回 new_student 格式）
+    w.bind("getAllStudents", [](string s) -> string {
+        int courseNum = COURSE_NUM;
+        json data = ConvertListToJson(head, courseNum);
+        return data.dump();
+        });
+
+    // 获取统计数据
+    w.bind("getStatistic", [](string s) -> string {
+        StatResult res = StatisticAnalysis(0, 0, head);
+        json data = ConvertStatToJson(res);
+        return data.dump();
+        });
+
+    w.navigate("http://localhost:5173");
+    w.run();
+    return 0;
+}
+
+// 创建学生节点（字段完全匹配 new_student）
+STUNode* CreateStudent(int id, const char* name, float scores[], int courseCount) {
     STUNode* node = (STUNode*)malloc(sizeof(STUNode));
-    node->num = num;
+    node->id = id;
     strcpy(node->name, name);
-    memcpy(node->score, scores, sizeof(float) * courseCount);
+    memcpy(node->scores, scores, sizeof(float) * courseCount);
 
     node->sum = 0;
     for (int j = 0; j < courseCount; j++) {
         node->sum += scores[j];
     }
-    node->aver = node->sum / courseCount;
+    node->average = courseCount > 0 ? node->sum / courseCount : 0;
     node->next = NULL;
     return node;
 }
 
-// ==========================
-// 2. 尾部追加学生
-// ==========================
+// 尾部追加学生
 void AppendRecord(STUNode** head, STUNode* newNode) {
     if (*head == NULL) {
         *head = newNode;
@@ -32,65 +110,55 @@ void AppendRecord(STUNode** head, STUNode* newNode) {
     }
 }
 
-// ==========================
-// 3. 计算单个学生总分平均分
-// ==========================
+// 计算单个学生总分/平均分
 void CalculateSingleScore(STUNode* node, int m) {
     node->sum = 0;
     for (int j = 0; j < m; j++) {
-        node->sum += node->score[j];
+        node->sum += node->scores[j];
     }
-    node->aver = node->sum / m;
+    node->average = m > 0 ? node->sum / m : 0;
 }
 
-// ==========================
-// 4. 计算每门课程总分 & 平均分
-// ==========================
+// 计算每门课程总分&平均分
 void CalculateScoreOfCourse(STUNode* head, int m, float courseSum[], float courseAver[]) {
     for (int j = 0; j < m; j++) courseSum[j] = 0;
     int count = 0;
     STUNode* p = head;
     while (p) {
-        for (int j = 0; j < m; j++) courseSum[j] += p->score[j];
+        for (int j = 0; j < m; j++) courseSum[j] += p->scores[j];
         p = p->next; count++;
     }
-    for (int j = 0; j < m; j++) courseAver[j] = courseSum[j] / count;
+    for (int j = 0; j < m; j++) courseAver[j] = count > 0 ? courseSum[j] / count : 0;
 }
 
-// ==========================
-// 5. 保存到文件
-// ==========================
+// 保存到文件
 void WritetoFile(STUNode* head, int m) {
-    FILE* fp = fopen("text.txt", "w");
+    FILE* fp = fopen("student_data.txt", "w");
     if (!fp) return;
-    int n = 0;
+    int n = GetStudentCount(head);
+    fprintf(fp, "%d %d\n", n, m);
     STUNode* p = head;
-    while (p) { n++; p = p->next; }
-    fprintf(fp, "%10d%10d\n", n, m);
-    p = head;
     while (p) {
-        fprintf(fp, "%ld\t%s\t", p->num, p->name);
-        for (int j = 0; j < m; j++) fprintf(fp, "%.2f\t", p->score[j]);
-        fprintf(fp, "%.2f\t%.2f\n", p->sum, p->aver);
+        fprintf(fp, "%d %s ", p->id, p->name);
+        for (int j = 0; j < m; j++) fprintf(fp, "%.2f ", p->scores[j]);
+        fprintf(fp, "%.2f %.2f\n", p->sum, p->average);
         p = p->next;
     }
     fclose(fp);
 }
 
-// ==========================
-// 6. 从文件读取
-// ==========================
+// 从文件读取
 STUNode* ReadfromFile(int* m) {
-    FILE* fp = fopen("text.txt", "r");
+    FILE* fp = fopen("student_data.txt", "r");
     if (!fp) { *m = 0; return NULL; }
     int n;
-    fscanf(fp, "%10d%10d\n", &n, m);
+    fscanf(fp, "%d %d", &n, m);
     STUNode* head = NULL;
     for (int i = 0; i < n; i++) {
         STUNode* node = (STUNode*)malloc(sizeof(STUNode));
-        fscanf(fp, "%ld\t%s\t", &node->num, node->name);
-        for (int j = 0; j < *m; j++) fscanf(fp, "%f\t", &node->score[j]);
-        fscanf(fp, "%f\t%f\n", &node->sum, &node->aver);
+        fscanf(fp, "%d %s", &node->id, node->name);
+        for (int j = 0; j < *m; j++) fscanf(fp, "%f", &node->scores[j]);
+        fscanf(fp, "%f %f", &node->sum, &node->average);
         node->next = NULL;
         AppendRecord(&head, node);
     }
@@ -98,9 +166,7 @@ STUNode* ReadfromFile(int* m) {
     return head;
 }
 
-// ==========================
-// 7. 获取学生总数
-// ==========================
+// 获取学生总数
 int GetStudentCount(STUNode* head) {
     int cnt = 0;
     STUNode* p = head;
@@ -108,21 +174,17 @@ int GetStudentCount(STUNode* head) {
     return cnt;
 }
 
-// ==========================
-// 8. 按学号查找
-// ==========================
-STUNode* FindStudentByNum(STUNode* head, long num) {
+// 按学号查找
+STUNode* FindStudentByNum(STUNode* head, int id) {
     STUNode* p = head;
     while (p) {
-        if (p->num == num) return p;
+        if (p->id == id) return p;
         p = p->next;
     }
     return NULL;
 }
 
-// ==========================
-// 9. 按姓名查找
-// ==========================
+// 按姓名查找
 STUNode* FindStudentByName(STUNode* head, char name[]) {
     STUNode* p = head;
     while (p) {
@@ -132,30 +194,26 @@ STUNode* FindStudentByName(STUNode* head, char name[]) {
     return NULL;
 }
 
-// ==========================
-// 10. 删除学生
-// ==========================
-int DeleteStudent(STUNode** head, long num) {
+// 删除学生
+int DeleteStudent(STUNode** head, int id) {
     if (*head == NULL) return 0;
     STUNode* p = *head;
     STUNode* prev = NULL;
-    if (p->num == num) {
+    if (p->id == id) {
         *head = p->next; free(p); return 1;
     }
-    while (p && p->num != num) { prev = p; p = p->next; }
+    while (p && p->id != id) { prev = p; p = p->next; }
     if (!p) return 0;
     prev->next = p->next; free(p); return 1;
 }
 
-// ==========================
-// 11. 修改学生
-// ==========================
-int ModifyStudent(STUNode* head, long oldNum, const char* newName, float newScores[], int m) {
+// 修改学生
+int ModifyStudent(STUNode* head, int oldId, const char* newName, float newScores[], int m) {
     STUNode* p = head;
     while (p) {
-        if (p->num == oldNum) {
+        if (p->id == oldId) {
             strcpy(p->name, newName);
-            memcpy(p->score, newScores, sizeof(float) * m);
+            memcpy(p->scores, newScores, sizeof(float) * m);
             CalculateSingleScore(p, m);
             return 1;
         }
@@ -164,9 +222,7 @@ int ModifyStudent(STUNode* head, long oldNum, const char* newName, float newScor
     return 0;
 }
 
-// ==========================
-// 12. 按索引获取学生
-// ==========================
+// 按索引获取学生
 STUNode* GetStudentByIndex(STUNode* head, int index) {
     int cnt = 0;
     STUNode* p = head;
@@ -177,9 +233,7 @@ STUNode* GetStudentByIndex(STUNode* head, int index) {
     return NULL;
 }
 
-// ==========================
-// 13. 按姓名排序
-// ==========================
+// 按姓名排序
 void SortbyName(int n, int m, STUNode stu[]) {
     if (head == NULL || head->next == NULL) return;
     STUNode* p, * last = NULL;
@@ -200,9 +254,7 @@ void SortbyName(int n, int m, STUNode stu[]) {
     } while (swapped);
 }
 
-// ==========================
-// 14. 按学号排序
-// ==========================
+// 按学号排序
 void SortbyNum(int n, int m, STUNode stu[]) {
     if (head == NULL || head->next == NULL) return;
     STUNode* p, * last = NULL;
@@ -211,7 +263,7 @@ void SortbyNum(int n, int m, STUNode stu[]) {
         swapped = false;
         p = head;
         while (p->next != last) {
-            if (p->num > p->next->num) {
+            if (p->id > p->next->id) {
                 STUNode tmp = *p;
                 *p = *p->next;
                 *p->next = tmp;
@@ -223,9 +275,7 @@ void SortbyNum(int n, int m, STUNode stu[]) {
     } while (swapped);
 }
 
-// ==========================
-// 15. 按总分排序
-// ==========================
+// 按总分排序
 void SortbyScore(int n, int m, STUNode stu[]) {
     if (head == NULL || head->next == NULL) return;
     STUNode* p, * last = NULL;
@@ -247,61 +297,56 @@ void SortbyScore(int n, int m, STUNode stu[]) {
 }
 
 // ==========================
-// 16. 成绩统计
+// 16. 成绩统计（严格匹配前端）
 // ==========================
-StatResult StatisticAnalysis(int n, int m, STUNode* stu) {
+StatResult StatisticAnalysis(STUNode* head) {
     StatResult res = { 0 };
     if (head == NULL) return res;
-    STUNode* p = head;
-    //res.maxSum = p->sum;
-    //res.minSum = p->sum;
-    float total = 0;
-    while (p) {
-        //if (p->sum > res.maxSum) res.maxSum = p->sum;
-        //if (p->sum < res.minSum) res.minSum = p->sum;
-        //if (p->aver >= 60) res.passCount++;
-        //else res.failCount++;
-        //res.count++;
 
-        total += p->sum;
+    STUNode* p = head;
+    float totalSum = 0;
+    int studentCount = 0;
+
+    while (p) {
+        totalSum += p->sum;
+        studentCount++;
         p = p->next;
     }
-    if (res.count > 0) res.avgSum = total / res.count;
+
+    res.count = studentCount;
+    res.avgSum = studentCount > 0 ? (totalSum / studentCount) : 0.0f;
     return res;
 }
 
+// 链表转JSON（完全匹配 new_student 接口）
 json ConvertListToJson(STUNode* head, int courseNum)
 {
-    json arr = json::array(); // 创建 JSON 数组
-
+    json arr = json::array();
     STUNode* p = head;
     while (p != NULL)
     {
         json stu;
-        stu["num"] = p->num;              // 学号
-        stu["name"] = p->name;            // 姓名
+        stu["id"] = p->id;
+        stu["name"] = p->name;
 
-        // 把成绩数组转成 JSON 数组
         json scores = json::array();
-        for (int i = 0; i < courseNum; i++)
-        {
-            scores.push_back(p->score[i]);
+        for (int i = 0; i < courseNum; i++) {
+            scores.push_back(p->scores[i]);
         }
-        stu["scores"] = scores;
-        stu["sum"] = p->sum;              // 总分
-        stu["aver"] = p->aver;            // 平均分
 
-        arr.push_back(stu); // 加入数组s
+        stu["scores"] = scores;
+        stu["sum"] = p->sum;
+        stu["average"] = p->average;
+        arr.push_back(stu);
         p = p->next;
     }
     return arr;
 }
+
 json ConvertStatToJson(StatResult res)
 {
     json j;
     j["count"] = res.count;
     j["avgSum"] = res.avgSum;
-    j["passCount"] = res.passCount;
-    j["failCount"] = res.failCount;
     return j;
 }
