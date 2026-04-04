@@ -9,7 +9,7 @@ int main()
     w.set_title("实践作业");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
 
-    // 提交考试数据（完全匹配前端 test 接口）
+   
     w.bind("submitTest", [](string jsonStr) -> string {
         try {
             json req = json::parse(jsonStr);
@@ -63,13 +63,44 @@ int main()
         }
         });
 
-    // 获取全部学生数据（返回 new_student 格式）
-    w.bind("getAllStudents", [](string s) -> string {
-        int courseNum = COURSE_NUM;
-        json data = ConvertListToJson(head, courseNum);
-        return data.dump();
+    // 提交考试数据
+    w.bind("getTextList", [](string s) -> string {
+        string result = getTest();
+        return result;
         });
 
+    // 登录
+    w.bind("login", [](string user, string pwd) -> string {
+        json res;
+        if (login(user, pwd)) {
+            res["code"] = 200;
+            res["msg"] = "登录成功";
+        }
+        else {
+            res["code"] = 403;
+            res["msg"] = "账号或密码错误";
+        }
+        return res.dump();
+        });
+    //更新考试数据
+    w.bind("updateTest", [](string jsonStr) -> string {
+        updateTest(jsonStr);  // 直接覆盖本地数据
+
+        json res;
+        res["code"] = 200;
+        res["msg"] = "考试数据已更新并覆盖本地";
+        return res.dump();
+        });
+
+    // 创建考试
+    w.bind("submitTest", [](string jsonStr) -> string {
+        submitTest(jsonStr);  // 执行提交
+
+        json res;
+        res["code"] = 200;
+        res["msg"] = "创建/提交考试成功";
+        return res.dump();
+        });
     // 获取统计数据
     w.bind("getStatistic", [](string s) -> string {
         StatResult res = StatisticAnalysis(0, 0, head);
@@ -349,4 +380,158 @@ json ConvertStatToJson(StatResult res)
     j["count"] = res.count;
     j["avgSum"] = res.avgSum;
     return j;
+}
+
+
+// 更新考试数据 —— 接收前端 JSON，覆盖本地 g_test
+void updateTest(const string& jsonStr) {
+    try {
+        // 1. 解析前端传来的 JSON
+        json req = json::parse(jsonStr);
+
+        // 2. 创建新的 test 数据（用来覆盖旧数据）
+        test newTestData;
+
+        // 一一对应赋值
+        newTestData.testName = req["testName"];
+        newTestData.stuNumber = req["stuNumber"];
+        newTestData.course = req["course"];
+        newTestData.courseName = req["courseName"].get<vector<string>>();
+
+        // 解析学生数组
+        for (const auto& item : req["students"]) {
+            new_student stu;
+            stu.name = item["name"];
+            stu.id = item["id"];
+            stu.scores = item["scores"].get<vector<float>>();
+
+            // 可选字段：有就赋值，没有保持 0
+            if (item.contains("sum")) stu.sum = item["sum"];
+            if (item.contains("average")) stu.average = item["average"];
+
+            newTestData.students.push_back(stu);
+        }
+
+        // 3. 覆盖本地全局 test 数据 ✅
+        g_test = newTestData;
+
+    }
+    catch (...) {
+        // 解析失败，不覆盖，保证安全
+        return;
+    }
+}
+
+// 从本地 test.json 读取考试数据到 g_test
+bool loadTestFromFile(const string& filePath = "test.json") {
+    try {
+        ifstream file(filePath);
+        if (!file.is_open()) return false;
+
+        json j;
+        file >> j;  // 读取文件到 JSON
+
+        // 直接解析到你的 g_test
+        g_test.testName = j["testName"];
+        g_test.stuNumber = j["stuNumber"];
+        g_test.course = j["course"];
+        g_test.courseName = j["courseName"].get<vector<string>>();
+
+        // 读取学生数组
+        g_test.students.clear();
+        for (auto& item : j["students"]) {
+            new_student stu;
+            stu.name = item["name"];
+            stu.id = item["id"];
+            stu.scores = item["scores"].get<vector<float>>();
+            stu.sum = item["sum"];
+            stu.average = item["average"];
+
+            g_test.students.push_back(stu);
+        }
+
+        file.close();
+        return true;
+    }
+    catch (...) {
+        return false;
+    }
+}
+
+
+
+// 创建/提交考试（接收前端JSON → 覆盖g_test → 保存到文件）
+void submitTest(const string& jsonStr) {
+    try {
+        // 1. 解析前端传来的JSON
+        json j = json::parse(jsonStr);
+
+        // 2. 直接覆盖全局g_test（整结构赋值，极简）
+        g_test = j;
+
+        // 3. 自动保存到本地 test.json 文件
+        saveTestToFile();
+    }
+    catch (...) {
+        // 解析失败，不执行任何操作
+    }
+}
+
+// 辅助：保存g_test到本地JSON文件
+void saveTestToFile(const string& path = "test.json") {
+    try {
+        json j = g_test;
+        ofstream file(path);
+        file << j.dump(4); // 格式化保存
+        file.close();
+    }
+    catch (...) {}
+}
+
+
+
+// 把考试数据传给前端
+string getTest() {
+    json res;
+    
+
+    // 考试基础信息  
+    res["testName"] = g_test.testName;
+    res["stuNumber"] = g_test.stuNumber;
+    res["course"] = g_test.course;
+    res["courseName"] = g_test.courseName;
+
+    // 学生列表（每个学生自带 sum 和 average）
+    json studentsArr;
+    for (auto& stu : g_test.students) {
+        json j;
+        j["name"] = stu.name;
+        j["id"] = stu.id;
+        j["scores"] = stu.scores;
+        j["sum"] = stu.sum;
+        j["average"] = stu.average;
+        studentsArr.push_back(j);
+    }
+    res["students"] = studentsArr;
+
+    return res.dump();
+}
+
+
+#include <string>
+using namespace std;
+
+// 假设本地存储的正确账号密码（你也可以从文件读取）
+string correctUsername = "admin";
+string correctPassword = "123456";
+
+// 登录函数：对比输入数据和本地数据
+// 返回 1 = 登录成功
+// 返回 0 = 失败
+int login(string inputUser, string inputPwd) {
+    // 逻辑：输入的数据 与 存有数据 相同 → 通过
+    if (inputUser == correctUsername && inputPwd == correctPassword) {
+        return 1; // 登录成功
+    }
+    return 0; // 登录失败
 }
