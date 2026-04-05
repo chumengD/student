@@ -24,18 +24,19 @@ export function Home(){
             }
         };
 
-        // 3. 立即执行
+        const getTestList = async ()=>{
+            const data =await window.getTestList();
+            const serialiseData =JSON.parse(data)
+            setTestList(serialiseData)
+            }
+
+        getTestList();
         fetchData();
     }, []); 
 
     //获取全部考试
     useEffect(()=>{
-    const getTest = async ()=>{
-      const data =await window.getTest();
-      const serialiseData =JSON.parse(data)
-      setTestList(serialiseData)
-    }
-    getTest();
+
   },[])
 
 
@@ -87,7 +88,7 @@ export function Home(){
                 <div className="function">功能区</div>
                 <ul className="functionUl">
                     <li><Button type="primary"  onClick={()=>setPage(1)}>添加考试</Button></li>
-                    <li><Button type="primary"  danger onClick={()=>{}}>删除考试</Button></li>
+                    {/* <li><Button type="primary"  danger onClick={()=>{}}>删除考试</Button></li> */}
                 </ul>
             </div>
         </div>

@@ -157,6 +157,8 @@ export const ShowTest: React.FC = () => {
                 ...test,
                 students:reData
             })
+            //TODO
+            window.updateTest(test)
             }}/></div>
   <div className='showTable'>
     <Table 

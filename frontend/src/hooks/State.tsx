@@ -29,13 +29,13 @@ function useStatesSource() {
           course:10,
           courseName:["高数","英语","3","4","5","6","7","8","9","10"],
           students:[{
-            name:"wwww",
+            name:"咕咕嘎嘎",
             id:111,
             scores:[12,13,3,4,5,6,7,8,9,0],
             average:12.5,
             sum:25
           },{
-            name:"aaa",
+            name:"原神",
             id:222,
             scores:[13,14,3,4,5,6,7,8,9,0],
             average:13.5,
@@ -48,13 +48,13 @@ function useStatesSource() {
           course:2,
           courseName:["高数","离散数学"],
           students:[{
-            name:"wwww",
+            name:"咕咕嘎嘎",
             id:111,
             scores:[12,13],
             average:12.5,
             sum:25
           },{
-            name:"aaa",
+            name:"原神",
             id:222,
             scores:[13,14],
             average:13.5,
