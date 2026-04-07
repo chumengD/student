@@ -17,7 +17,7 @@ const defaultStu:student ={
 // 把所有状态逻辑放在这里，方便 TS 推断
 function useStatesSource() {
   const [page, setPage] = useState<number>(0);
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDetail,setIsDetail] =useState<boolean>(false);
   const [isChange,setIsChange] =useState<boolean>(false);
   const [isDelete,setIsDelete] =useState<boolean>(false);

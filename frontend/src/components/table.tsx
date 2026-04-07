@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, InputNumber, Form} from 'antd';
 import { useStates } from '../hooks/State';
-import "../pages/styles/chageText.css"
+import "./table.css"
 
 export const MyTable: React.FC = () => {
   const [current, setCurrent] = useState(1); // 默认第一页
@@ -28,7 +28,7 @@ export const MyTable: React.FC = () => {
         return (<Form.Item name={['students', globalIndex, 'name']} noStyle>
           <Input
           
-          style={{minWidth:"60px" ,maxWidth:"120px"}}/>
+          style={{minWidth:"80px" ,maxWidth:"120px"}}/>
         </Form.Item>)
       },
     },
@@ -59,7 +59,6 @@ export const MyTable: React.FC = () => {
     
     form={form}
     onFinish={(v) => console.log(v.students)} 
-    className='Mytable'
     onValuesChange={(_, allValues) => {
         setTest({
           ...test,
@@ -72,6 +71,7 @@ export const MyTable: React.FC = () => {
         columns={columns}
         rowKey="id"
         pagination={{
+            position:['bottomRight'],
             current:current,
             pageSize:pageSize,
             onChange: (page) => {

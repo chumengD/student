@@ -111,3 +111,11 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.ant-pagination {
+    display: flex !important;
+    flex-direction: row !important;
+}
+.ant-pagination-item {
+    display: inline-block !important;
+}
