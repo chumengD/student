@@ -103,6 +103,19 @@ export function CreateText(){
         />
         </Form.Item>
 
+        
+    <Form.Item label="考生人数">
+          <InputNumber
+            changeOnWheel={true}
+            max={50}
+            min={1}
+            value={test.stuNumber}
+            onChange={(value) => {
+            handlestuNumberChange(value)
+            }}
+          />
+    </Form.Item>
+
         {/*科目相关信息*/}
         {Array.from({length:test.course}).map(( _,index)=>(
             <Form.Item key={index} label={`科目 ${index+1}`}>
@@ -121,17 +134,6 @@ export function CreateText(){
             </Form.Item>
         ))}
 
-    <Form.Item label="考生人数">
-          <InputNumber
-            changeOnWheel={true}
-            max={50}
-            min={1}
-            value={test.stuNumber}
-            onChange={(value) => {
-            handlestuNumberChange(value)
-            }}
-          />
-    </Form.Item>
 
     <MyTable/>
 

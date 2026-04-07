@@ -11,7 +11,6 @@
 //     scores:course[]
 // }
 
-//���ظ���ˣ���Ҫ���������
 export interface test{
     testName:string,
     stuNumber:number,
@@ -21,7 +20,7 @@ export interface test{
 }
 
 
-//����ѧ��������
+
 export interface new_student{
     name:string,
     id:number,

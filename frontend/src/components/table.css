@@ -1,0 +1,13 @@
+.Mytable {
+    width: 100%;
+    display: block;
+    text-align: center;
+
+    align-items: stretch !important;   /* 👈 关键 */
+}
+
+.ant-table-pagination {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end !important;
+}
