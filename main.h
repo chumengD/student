@@ -3,13 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <string>\
+#include <string>
+#include <webview.h>
 #include<vector>
+#include<fstream>
+#include "json.hpp"
+
 using namespace std;
 
 #define COURSE_NUM 10
 #define NAME_LEN 30
 #define TEXT_LEN 50
+
+//声明函数
+void to_json(json& j, const user& usr);
 
 // ==============================
 // 完整学生信息（对应 interface student）
@@ -48,19 +55,31 @@ extern STUNode* head;
 STUNode* head = NULL;
 
 
+struct new_student{
+    string name;
+    int  id;
+    vector<int> scores;
+    int average=0;
+    int sum=0;
+};
+
 struct test {
     string testName;
     int stuNumber;
     int course;
     vector<string> courseName;
     vector<new_student> students;
-}
-test g_test{};  // 全局，用来被覆盖
+};
 
-struct new_student{
-    string name;
-    int  id;
-    vector<int> scores;
-    int average=0;
-    int sum=0,
-}
+
+struct user {
+    int username;
+    string password;
+};
+
+vector<user> users = {
+    {25050907, "12345678"},
+    {25050916, "12345678"},
+    {11451419, "12345678"}
+};
+

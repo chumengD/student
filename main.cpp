@@ -1,7 +1,8 @@
-﻿#include "CMake_student_management.h"
-#include <webview>
-#include "nlohmann/json.hpp"
+﻿#include "main.h"
+
 using json = nlohmann::json;
+
+test g_test;
 
 int main()
 {
@@ -65,13 +66,17 @@ int main()
 
     // 提交考试数据
     w.bind("getTextList", [](string s) -> string {
-        string result = getTest();
-        return result;
+        json result = loadTestFromFile();
+        return result.dump();
         });
 
     // 登录
-    w.bind("login", [](string user, string pwd) -> string {
+    w.bind("login", [](string loginMessage) -> string {
         json res;
+		auto j = json::parse(loginMessage);
+		int user = j["user"];
+		string pwd = j["pwd"];
+
         if (login(user, pwd)) {
             res["code"] = 200;
             res["msg"] = "登录成功";
@@ -82,6 +87,7 @@ int main()
         }
         return res.dump();
         });
+
     //更新考试数据
     w.bind("updateTest", [](string jsonStr) -> string {
         updateTest(jsonStr);  // 直接覆盖本地数据
@@ -102,11 +108,12 @@ int main()
         return res.dump();
         });
     // 获取统计数据
-    w.bind("getStatistic", [](string s) -> string {
-        StatResult res = StatisticAnalysis(0, 0, head);
-        json data = ConvertStatToJson(res);
-        return data.dump();
-        });
+
+    //w.bind("getStatistic", [](string s) -> string {
+    //    StatResult res = StatisticAnalysis(0, 0, head);
+    //    json data = ConvertStatToJson(res);
+    //    return data.dump();
+    //    });
 
     w.navigate("http://localhost:5173");
     w.run();
@@ -403,7 +410,7 @@ void updateTest(const string& jsonStr) {
             new_student stu;
             stu.name = item["name"];
             stu.id = item["id"];
-            stu.scores = item["scores"].get<vector<float>>();
+            stu.scores = item["scores"].get<std::vector<int>>();;
 
             // 可选字段：有就赋值，没有保持 0
             if (item.contains("sum")) stu.sum = item["sum"];
@@ -412,7 +419,6 @@ void updateTest(const string& jsonStr) {
             newTestData.students.push_back(stu);
         }
 
-        // 3. 覆盖本地全局 test 数据 ✅
         g_test = newTestData;
 
     }
@@ -423,35 +429,36 @@ void updateTest(const string& jsonStr) {
 }
 
 // 从本地 test.json 读取考试数据到 g_test
-bool loadTestFromFile(const string& filePath = "test.json") {
+json loadTestFromFile() {
     try {
-        ifstream file(filePath);
+        ifstream file("test.json");
         if (!file.is_open()) return false;
 
-        json j;
-        file >> j;  // 读取文件到 JSON
+        json testList;
+        file >> testList; 
+    
+        //// 直接解析到你的 g_test
+        //g_test.testName = j["testName"];
+        //g_test.stuNumber = j["stuNumber"];
+        //g_test.course = j["course"];
+        //g_test.courseName = j["courseName"].get<vector<string>>();
 
-        // 直接解析到你的 g_test
-        g_test.testName = j["testName"];
-        g_test.stuNumber = j["stuNumber"];
-        g_test.course = j["course"];
-        g_test.courseName = j["courseName"].get<vector<string>>();
+        //// 读取学生数组
+        //g_test.students.clear();
+        //for (auto& item : j["students"]) {
+        //    new_student stu;
+        //    stu.name = item["name"];
+        //    stu.id = item["id"];
+        //    stu.scores = item["scores"].get<vector<float>>();
+        //    stu.sum = item["sum"];
+        //    stu.average = item["average"];
 
-        // 读取学生数组
-        g_test.students.clear();
-        for (auto& item : j["students"]) {
-            new_student stu;
-            stu.name = item["name"];
-            stu.id = item["id"];
-            stu.scores = item["scores"].get<vector<float>>();
-            stu.sum = item["sum"];
-            stu.average = item["average"];
+        //    g_test.students.push_back(stu);
+        //}
 
-            g_test.students.push_back(stu);
-        }
 
         file.close();
-        return true;
+        return testList;
     }
     catch (...) {
         return false;
@@ -489,49 +496,39 @@ void saveTestToFile(const string& path = "test.json") {
 }
 
 
-
-// 把考试数据传给前端
-string getTest() {
-    json res;
-    
-
-    // 考试基础信息  
-    res["testName"] = g_test.testName;
-    res["stuNumber"] = g_test.stuNumber;
-    res["course"] = g_test.course;
-    res["courseName"] = g_test.courseName;
-
-    // 学生列表（每个学生自带 sum 和 average）
-    json studentsArr;
-    for (auto& stu : g_test.students) {
-        json j;
-        j["name"] = stu.name;
-        j["id"] = stu.id;
-        j["scores"] = stu.scores;
-        j["sum"] = stu.sum;
-        j["average"] = stu.average;
-        studentsArr.push_back(j);
+int login(int inputUser, string inputPwd) {
+	json users = get_login_list();
+    for (const auto& user : users) {
+        if (inputUser == user["username"] && inputPwd == user["password"]) return 1;
     }
-    res["students"] = studentsArr;
-
-    return res.dump();
+    return 0;
 }
 
+json get_login_list() {
+    //write_login_list(users);
+	fstream file("login.json");
+	json json_users = json::parse(file);
+    
+    return json_users;
 
-#include <string>
-using namespace std;
+}
 
-// 假设本地存储的正确账号密码（你也可以从文件读取）
-string correctUsername = "admin";
-string correctPassword = "123456";
-
-// 登录函数：对比输入数据和本地数据
-// 返回 1 = 登录成功
-// 返回 0 = 失败
-int login(string inputUser, string inputPwd) {
-    // 逻辑：输入的数据 与 存有数据 相同 → 通过
-    if (inputUser == correctUsername && inputPwd == correctPassword) {
-        return 1; // 登录成功
+json write_login_list(vector<user> users) {
+    ofstream file;
+	file.open("login.json");
+    json json_users = json::array();
+    if (file.is_open()) {
+        for (const auto& user : users) {
+            json j;
+            to_json(j, user);
+			json_users.push_back(j);
+        }
+        file << json_users.dump(4);
+		file.close();
     }
-    return 0; // 登录失败
+	return json_users;
+}
+
+void to_json(json& j, const user& usr) {
+    j = json{ {"username", usr.username}, {"password", usr.password} };
 }
