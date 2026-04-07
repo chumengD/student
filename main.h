@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <string>
+#include <string>\
+#include<vector>
 using namespace std;
 
 #define COURSE_NUM 10
@@ -45,3 +46,21 @@ typedef struct {
 
 extern STUNode* head;
 STUNode* head = NULL;
+
+
+struct test {
+    string testName;
+    int stuNumber;
+    int course;
+    vector<string> courseName;
+    vector<new_student> students;
+}
+test g_test{};  // 全局，用来被覆盖
+
+struct new_student{
+    string name;
+    int  id;
+    vector<int> scores;
+    int average=0;
+    int sum=0,
+}
