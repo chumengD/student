@@ -136,6 +136,43 @@ int main()
 		}
 	});
 
+	w.bind("deleteTest", [](string test_name)->string {
+		json res;
+		const string& name = json::parse(test_name)[0];
+		json read_res = read_test();
+		if (read_res["ok"]) {
+			json testList = read_res["test"];
+
+			//使用remove_if和lambda表达式删除同名考试
+			testList.erase(
+				std::remove_if(testList.begin(), testList.end(),
+					[&name](const json& test) {
+						return test["testName"] == name;
+					}),
+				testList.end()
+			);
+
+			//将修改后的考试列表写回文件
+			if (write_test(testList)) {
+				res["code"] = 200;
+				res["msg"] = "删除考试成功";
+			}
+			else {
+				res["code"] = 500;
+				res["msg"] = "删除考试失败";
+			};
+
+		}
+		else {
+			res["code"] = 500;
+			res["msg"] = "获取考试信息失败";
+			
+		}
+
+		return res.dump();
+		}); 
+	
+
 	w.navigate("http://localhost:5173");
 	w.run();
 	return 0;
