@@ -8,7 +8,7 @@ import "./styles/login.css";
 export function Login(){
     const [ID,setID] = useState<string>();
     const [password,setPassword] = useState<string>();
-    const [role,setRole] =useState<string>("教师");
+    const [role,setRole] =useState<string>("学生");
     const {setPage,setIsLogin} = useStates();
     
     function handleInput(e:React.ChangeEvent<HTMLInputElement>){
@@ -29,23 +29,26 @@ export function Login(){
 
       const loginPayload ={
         id:ID,
-        password:password,
+        password:String(password),
         role:role,
       }
 
-      // const data =await window.login(loginPayload);
-      const data ={
-        isSucessce:true,
-      };
-      console.log(data);
+      const res =await window.login(loginPayload);
+      // const data ={
+      //   isSucessce:true,
+      // };
+      console.log(res);
+      // const data =JSON.parse(res);
+      // console.log(data);
 
-      if (data["isSucessce"]){
-        message.success("登录成功！",4);
+
+      if (res.code === 200){
+        message.success("登录成功！", 4);
         setIsLogin(true);
         setPage(0);
       }
       else{
-        message.error("账号或者密码错误!",3);
+        message.error(res.msg || "账号或者密码错误!", 3);
       }
     }
 
@@ -89,8 +92,8 @@ export function Login(){
   value={role}
   onChange={(e) => setRole(e.target.value)}
 >
-  <option value="student">学生</option>
-  <option value="teacher">教师</option>
+  <option value="学生">学生</option>
+  <option value="教师">教师</option>
 </select>
 
       <button  type="submit">提交</button>

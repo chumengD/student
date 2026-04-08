@@ -11,6 +11,10 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
+#修改为utf-8编码
+if (MSVC)
+    add_compile_options(/utf-8)
+endif()
 
 # WIN32 标志确保程序启动时不显示黑乎乎的控制台窗口
 add_executable(CMake_student_management  main.cpp main.h )
@@ -24,15 +28,11 @@ endif()
 # 设置输出目录
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-include(FetchContent)
+#本地引用webview库
+set(WEBVIEW_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/webview-0.12.0")
 
-# 声明并获取 webview 库
-FetchContent_Declare(
-  webview
-  GIT_REPOSITORY https://github.com/webview/webview
-  GIT_TAG 0.12.0
-)
-FetchContent_MakeAvailable(webview)
+# 将本地文件夹加入构建
+add_subdirectory(${WEBVIEW_LOCAL_DIR})
 
 # 创建可执行文件
 

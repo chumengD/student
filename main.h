@@ -10,13 +10,13 @@
 #include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 #define COURSE_NUM 10
 #define NAME_LEN 30
 #define TEXT_LEN 50
 
-//声明函数
-void to_json(json& j, const user& usr);
+
 
 // ==============================
 // 完整学生信息（对应 interface student）
@@ -73,13 +73,20 @@ struct test {
 
 
 struct user {
-    int username;
+    string username;
     string password;
+    string role;
 };
 
 vector<user> users = {
-    {25050907, "12345678"},
-    {25050916, "12345678"},
-    {11451419, "12345678"}
+    {"25050907", "12345678","学生"},
+    {"25050916", "12345678","教师"},
+    {"11451419", "12345678","教师"}
 };
 
+
+//声明函数
+void to_Json(json& j, const user& usr);
+int login(json j);
+json get_login_list();
+json write_login_list(vector<user> users);
