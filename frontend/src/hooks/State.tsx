@@ -94,10 +94,10 @@ const showTest={
 // 把所有状态逻辑放在这里，方便 TS 推断
 function useStatesSource() {
   const [page, setPage] = useState<number>(0);
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDetail,setIsDetail] =useState<boolean>(false);
   const [isChange,setIsChange] =useState<boolean>(false);
-  const [isDelete,setIsDelete] =useState<boolean>(true);
+  const [isDelete,setIsDelete] =useState<boolean>(false);
   // const [student,setStudent] =useState<student>(defaultStu);
   const [searchInput,setSearchInput] =useState<string>("");
   const [submitTest,setSubmitTest]= useState<test>(submitT);

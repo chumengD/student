@@ -59,6 +59,12 @@ int main()
 	// 上传考试数据
 	w.bind("submitTest", [](string newTest) -> string {
 		json n_test = json::parse(newTest)[0];
+
+
+		for (int i = 0; i < n_test["students"].size(); i++) {
+			n_test["students"][i] = CalculateScore(n_test["students"][i]);
+		}
+
 		json res;
 		json testList = json::array();
 		fstream file;
@@ -101,8 +107,21 @@ int main()
 		});
 
 	w.bind("updateTest", [](string changedTest)->string {
-		json testList;
+		//先处理数据，在储存数据
 		json c_test = json::parse(changedTest)[0];
+		json students = c_test["students"];
+		json new_students = json::array();
+		
+		for (auto& student : students) {
+			json n_student = CalculateScore(student);
+			new_students.push_back(n_student);
+		}
+		c_test["students"] = new_students;
+
+
+
+		json testList;
+		
 		json get_test;
 		json read_res = read_test();
 		json res;
@@ -253,3 +272,31 @@ bool write_test(json testList) {
 	
 	return result;
 }
+
+
+
+json CalculateScore(json student) {
+	
+	vector<int> scores = student["scores"];
+
+	
+	int sum = 0;
+	double average = 0.0;  
+
+	
+	for (int& score:scores) {
+		sum += score;
+	}
+
+	
+	if (scores.size() > 0) {
+		average = (double)sum / scores.size();
+	}
+
+	
+	student["sum"] = sum;        // 总分
+	student["average"] = average;   // 平均分
+
+	return student;
+}
+

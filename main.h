@@ -53,12 +53,14 @@ typedef struct {
 extern STUNode* head;
 STUNode* head = NULL;
 
+json CalculateScore(json student);
+
 
 struct new_student{
     string name;
     int  id;
     vector<int> scores;
-    int average=0;
+    double average=0;
     int sum=0;
 };
 
