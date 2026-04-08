@@ -13,3 +13,15 @@
     align-items: center;
 }
 
+.Mysearch {
+    display: flex;
+    justify-content: center; /* 控制内部元素水平居中 */
+    align-items: center;     /* 控制内部元素垂直居中（根据需要保留） */
+    width: 100%;             /* 确保父容器占满可用宽度 */
+    margin-bottom: 20px;
+}
+
+.SearchBox {
+    width: 20%;              /* 缩小搜索框，也可以使用固定像素，例如 width: 400px; */
+
+}

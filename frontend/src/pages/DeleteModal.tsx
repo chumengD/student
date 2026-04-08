@@ -3,7 +3,18 @@ import "./styles/del.css"
 import { Button ,message,Popconfirm} from "antd";
 
 export function DeleteModal(){
-    const {setIsDelete,testList} =useStates();
+    const {setIsDelete,testList,setTestList} =useStates();
+
+    const getTestList = async ()=>{
+        const data =await window.getTestList();
+        console.log(data);
+        if(data["code"]==200){
+                setTestList(data["data"]);
+                //message.success("获取考试信息成功！",5);
+        }else{
+            message.error("获取考试信息失败！",10);
+        }
+        }
     
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
@@ -12,12 +23,19 @@ export function DeleteModal(){
     };
 
     const handleDelete =(index)=>{
-        const res = window.deleteTest(index);
-        if (res["code"]==200){
-            message.success("删除成功！",5);
-        }else{
-            message.error("删除失败",3);
+        const a = async ()=>{
+            const testName = testList[index].testName;
+            const res = await window.deleteTest(testName);
+            await getTestList();
+            console.log(res);
+            if (res["code"]==200){
+                message.success("删除成功！",5);
+            }else{
+                message.error("删除失败",3);
+            }
         }
+        a();
+        
     };
 
     return(

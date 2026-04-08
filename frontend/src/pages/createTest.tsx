@@ -1,4 +1,4 @@
-import "./styles/chageText.css";
+﻿import "./styles/chageText.css";
 import { type test ,type new_student} from "../interface";
 import { useState } from "react";
 import { FormDisabledDemo } from "../components/inupt";
@@ -89,9 +89,9 @@ export function CreateText(){
       />
         </Form.Item>
 
-        <Form.Item label="考试日期">
+        {/* <Form.Item label="考试日期">
           <RangePicker />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item label="科目数">
           <InputNumber

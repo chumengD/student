@@ -106,6 +106,7 @@ int main()
 
 		});
 
+	//更新修改后的数据
 	w.bind("updateTest", [](string changedTest)->string {
 		//先处理数据，在储存数据
 		json c_test = json::parse(changedTest)[0];
@@ -155,6 +156,7 @@ int main()
 		}
 	});
 
+	//删除考试
 	w.bind("deleteTest", [](string test_name)->string {
 		json res;
 		const string& name = json::parse(test_name)[0];

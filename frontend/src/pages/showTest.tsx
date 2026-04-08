@@ -2,7 +2,8 @@ import React from 'react';
 import { Table,Popconfirm } from 'antd';
 import type { TableColumnsType, TableProps,} from 'antd';
 import { useStates } from '../hooks/State';
-import { useState } from 'react';
+import { useState ,useMemo} from 'react';
+import { SearchBox } from '../components/search';
 import "./styles/showTest.css"
 
 export const ShowTest: React.FC = () => {
@@ -53,6 +54,20 @@ export const ShowTest: React.FC = () => {
     const [editingKey, setEditingKey] = useState<number | ''>('');
     const isEditing = (record) => record.key === editingKey;
 
+     //定义筛选参数
+    const [searchParams, setSearchParams] =useState({type:"name",val:""});
+    const data_filter = useMemo(()=>{
+
+      if (!searchParams.val.trim()) return _data;
+
+      return _data.filter(item=>{
+        const data_params_filter = String(item[searchParams.type] || '').toLowerCase();
+        return data_params_filter.includes(searchParams.val.trim().toLowerCase());
+      })
+
+
+    },[_data,searchParams]);
+ 
     const edit = (record) => {
         setOldData(structuredClone(_data))
         setEditingKey(record.key);
@@ -161,11 +176,57 @@ export const ShowTest: React.FC = () => {
 
             window.updateTest(updateedTest);
             }}/></div>
-  <div className='showTable'>
-    <Table 
-    columns={columns} 
-    dataSource={_data} 
-    pagination={false} />
+
+    <div className='Mysearch'><SearchBox onSearch={(type,val)=>{
+      setSearchParams({type,val});
+      console.log(searchParams);
+      }}/></div>
+
+    <div className='showTable'>
+      <Table 
+      columns={columns} 
+      dataSource={data_filter} 
+      pagination={false}
+      
+      summary={(pageData) => {
+      if (pageData.length === 0) return null;
+
+      // 辅助函数：计算某一 key 的平均值
+      const calculateAvg = (key: string) => {
+        const total = pageData.reduce((acc, curr) => acc + (Number(curr[key]) || 0), 0);
+        return (total / pageData.length).toFixed(2);
+      };
+
+      return (
+        <Table.Summary fixed>
+          <Table.Summary.Row style={{ backgroundColor: '#fafafa', fontWeight: 'bold' }}>
+            <Table.Summary.Cell index={0}>平均分</Table.Summary.Cell>
+            <Table.Summary.Cell index={1}>-</Table.Summary.Cell>
+            
+            {/* 1. 每一门课的平均分 */}
+            {test.courseName.map((_, i) => (
+              <Table.Summary.Cell index={i + 2} key={i}>
+                {calculateAvg(`score_${i}`)}
+              </Table.Summary.Cell>
+            ))}
+
+            {/* 2. 对应原表格中的“平均分”列的平均值 */}
+            <Table.Summary.Cell index={test.courseName.length + 2}>
+              {calculateAvg('average')}
+            </Table.Summary.Cell>
+
+            {/* 3. 对应原表格中的“总分”列的平均值 */}
+            <Table.Summary.Cell index={test.courseName.length + 3}>
+              {calculateAvg('sum')}
+            </Table.Summary.Cell>
+
+            {/* 操作列留空 */}
+            <Table.Summary.Cell index={test.courseName.length + 4}>-</Table.Summary.Cell>
+          </Table.Summary.Row>
+        </Table.Summary>
+      );
+    }}
+      />
   </div>
   </>)
 };

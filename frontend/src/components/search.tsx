@@ -1,11 +1,16 @@
 import { Input, Select } from "antd";
 import { useState } from "react";
 import { useStates } from "../hooks/State";
+import "../pages/styles/showTest.css"
 
 const { Search } = Input;
 
-export function SearchBox() {
-  const [type, setType] = useState("id");
+interface props {
+  onSearch:(type:string,val:string) => void
+}
+
+export function SearchBox({onSearch}:props) {
+  const [type, setType] = useState("name");
   const {searchInput,setSearchInput} = useStates();
 
   const selectBefore = (
@@ -16,23 +21,23 @@ export function SearchBox() {
       options={[
         { value: "name", label: "姓名" },
         { value: "id", label: "学号" },
-        
       ]}
     />
   );
 
-  const onSearch = () => {
-    console.log("搜索类型:", type);
-    console.log("搜索内容:", searchInput);
+  const handleSearch = (val) => {
+    onSearch(type,val);
   };
 
   return (
     <Search
+      className="SearchBox"
       addonBefore={selectBefore}
       placeholder="请输入搜索内容"
       value={searchInput}
       onChange={(e) => setSearchInput(e.target.value)}
-      onSearch={onSearch}
+      onSearch={handleSearch}
+      allowClear
       enterButton="搜索"
     />
   );
