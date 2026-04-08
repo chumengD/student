@@ -1,23 +1,16 @@
-﻿import "./styles/home.css"
+import "./styles/home.css"
 import {SearchBox} from "../components/search";
 import { Note } from "../components/textarea";
 import { useStates } from "../hooks/State";
-import { DeleteModal } from "./DeleteModal.js";
+import { DetailModal } from "./detail";
+import { ChangeModal } from "./changeDetali";
 import { useEffect, useState } from "react";
 import {readSelfNote} from "../hooks/selfNote.js"
 import { Button, message } from "antd";
  
 export function Home(){
-    const {
-        setPage,
-        setTestList,
-        testList,
-        setTest,
-        isDelete,
-        setIsDelete,
-    }= useStates();
+    const {setPage,setTestList,testList,setTest}= useStates();
     const [note,setNote] =useState<string>("");
-
     
    useEffect(() => {
         // 1. 定义一个内部异步函数
@@ -36,7 +29,7 @@ export function Home(){
             console.log(data);
             if(data["code"]==200){
                  setTestList(data["data"]);
-                 //message.success("获取考试信息成功！",5);
+                 message.success("获取考试信息成功！",5);
             }else{
                 message.error("获取考试信息失败！",10);
             }
@@ -100,7 +93,7 @@ export function Home(){
                 <div className="function">功能区</div>
                 <ul className="functionUl">
                     <li><Button type="primary"  onClick={()=>setPage(1)}>添加考试</Button></li>
-                    <li><Button type="primary"  danger onClick={()=>{setIsDelete(true)}}>删除考试</Button></li>
+                    {/* <li><Button type="primary"  danger onClick={()=>{}}>删除考试</Button></li> */}
                 </ul>
             </div>
         </div>
@@ -109,8 +102,8 @@ export function Home(){
         
     </div>
     
-    {/* {isDetail && <DetailModal/>}*/}
-    {isDelete && <DeleteModal/>} 
+    {/* {isDetail && <DetailModal/>}
+    {isChange && <ChangeModal/>} */}
     
 
     </>);

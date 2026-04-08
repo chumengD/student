@@ -1,29 +1,19 @@
 import { useState, createContext, useContext, type ReactNode } from "react";
 import { type student ,type test} from "../interface";
 
-const defaultStu:student ={
-    name:"樱小路露娜",
-    id:26050907,
-    appearance:"/luna.png",
-    department:"艺术学院",
-    grade:"大一",
-    from:"樱公馆",
-    contact:"暂无",
-    color:"red",
-    note:"我是露娜大人的狗",
-}
+// const defaultStu:student ={
+//     name:"樱小路露娜",
+//     id:26050907,
+//     appearance:"/luna.png",
+//     department:"艺术学院",
+//     grade:"大一",
+//     from:"樱公馆",
+//     contact:"暂无",
+//     color:"red",
+//     note:"我是露娜大人的狗",
+// }
 
-
-// 把所有状态逻辑放在这里，方便 TS 推断
-function useStatesSource() {
-  const [page, setPage] = useState<number>(0);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [isDetail,setIsDetail] =useState<boolean>(false);
-  const [isChange,setIsChange] =useState<boolean>(false);
-  const [isDelete,setIsDelete] =useState<boolean>(false);
-  const [student,setStudent] =useState<student>(defaultStu);
-  const [searchInput,setSearchInput] =useState<string>("");
-  const [testList,setTestList] =useState([{
+const list =[{
           testName:"期中考",
           stuNumber:2,
           course:10,
@@ -61,8 +51,27 @@ function useStatesSource() {
             sum:27
           }],
       }
-    ])
-  const [test,setTest] =useState<test>({
+    ];
+
+const submitT= {
+          testName:"测试",
+          stuNumber:2,
+          course:2,
+          courseName:["cs","os"],
+          students:[{
+            name:"樱小路露娜",
+            id:520,
+            scores:[100,100],
+          },{
+            name:"小仓朝日",
+            id:25,
+            scores:[60,120],
+            average:13.5,
+            sum:27
+          }]
+        };
+
+const showTest={
           testName:"期中考",
           stuNumber:2,
           course:2,
@@ -80,7 +89,20 @@ function useStatesSource() {
             average:13.5,
             sum:27
           }],
-      });
+      }
+
+// 把所有状态逻辑放在这里，方便 TS 推断
+function useStatesSource() {
+  const [page, setPage] = useState<number>(0);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isDetail,setIsDetail] =useState<boolean>(false);
+  const [isChange,setIsChange] =useState<boolean>(false);
+  const [isDelete,setIsDelete] =useState<boolean>(true);
+  // const [student,setStudent] =useState<student>(defaultStu);
+  const [searchInput,setSearchInput] =useState<string>("");
+  const [submitTest,setSubmitTest]= useState<test>(submitT);
+  const [testList,setTestList] =useState(list);
+  const [test,setTest] =useState<test>(showTest);
     
   // 在这里新增状态，不需要去别的地方改 interface
   return {
@@ -94,14 +116,16 @@ function useStatesSource() {
     setIsChange,
     isDelete,
     setIsDelete,
-    student,
-    setStudent,
+    // student,
+    // setStudent,
     searchInput,
     setSearchInput,
     test,
     setTest,
     testList,
     setTestList,
+    submitTest,
+    setSubmitTest,
   };
 }
 

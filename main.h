@@ -1,10 +1,9 @@
 ﻿#pragma once
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <string>
 #include <webview.h>
+#include <iostream>
 #include<vector>
 #include<fstream>
 #include "json.hpp"
@@ -90,3 +89,6 @@ void to_Json(json& j, const user& usr);
 int login(json j);
 json get_login_list();
 json write_login_list(vector<user> users);
+json getTestList();
+json read_test();
+bool write_test(json testList);

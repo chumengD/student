@@ -10,28 +10,8 @@ import { ShowTest } from './pages/showTest';
 
 
 function App() {
-  const {isLogin,page,isDelete,student,setStuList} =useStates();
+  const {isLogin,page} =useStates();
   
-
-  // //调用删除学生函数
-  // useEffect(  ()=>{
-  //   const handleDelete = async () => {
-  //   if (isDelete) {
-  //     const data = await window.deleteStu(student);
-      
-  //     if (data.code === 200) {
-  //       message.success(mes.mes, 5);
-  //     } else {
-  //       message.error("删除失败！", 5);
-  //     }
-  //   }
-  // };
-  // handleDelete();
-  // },[isDelete])
-
- 
-  
-
   return (<>
   <div className='container'>
     {isLogin?

@@ -1,6 +1,6 @@
 import "./styles/chageText.css";
 import { type test ,type new_student} from "../interface";
-import { useState ,useEffect} from "react";
+import { useState } from "react";
 import { FormDisabledDemo } from "../components/inupt";
 import { MyTable } from "../components/table";
 import { useStates } from "../hooks/State";
@@ -19,7 +19,11 @@ const { RangePicker } = DatePicker;
 
 
 export function CreateText(){
-    const {test,setTest,setPage} =useStates();
+    const {setPage,
+      submitTest:test,
+      setSubmitTest:setTest
+    } =useStates();
+   
 
     const handlestuNumberChange =(newNum) =>{
     const currentStu = [...test.students];
@@ -44,9 +48,10 @@ export function CreateText(){
   const handleFinish =async (value) =>{
     //TODO
     const result = await window.submitTest(test);
+    console.log(result);
     if (result['code'] ===200){
       message.success("创建成功！",5);
-      setPage(0)
+      // setPage(0)
     }else{
       message.error("创建失败！请重新尝试",3);
     }

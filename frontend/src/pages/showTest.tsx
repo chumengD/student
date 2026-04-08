@@ -153,12 +153,13 @@ export const ShowTest: React.FC = () => {
         onClick={()=>{
             setPage(0)
             const reData = revertData(_data,courseNum)
-            setTest({
+            const updateedTest = {
                 ...test,
                 students:reData
-            })
-            //TODO
-            window.updateTest(test)
+            };
+            setTest(updateedTest);
+
+            window.updateTest(updateedTest);
             }}/></div>
   <div className='showTable'>
     <Table 

@@ -6,7 +6,7 @@ import "./table.css"
 export const MyTable: React.FC = () => {
   const [current, setCurrent] = useState(1); // 默认第一页
   const pageSize = 7; // 定义每页行数
-  const {test,setTest} =useStates();
+  const {submitTest:test,setSubmitTest:setTest} =useStates();
   const [form] = Form.useForm();
 
 
@@ -32,14 +32,19 @@ export const MyTable: React.FC = () => {
         </Form.Item>)
       },
     },
+
     {
       title: '学号',
       render: (_: any, __: any, index: number) => (
         <Form.Item name={['students', getGlobalIndex(index), 'id']} noStyle>
-          <InputNumber />
+          <InputNumber 
+          changeOnWheel={true}
+          min={0} 
+           />
         </Form.Item>
       ),
     },
+
     ...Array.from({ length: test.course }).map((_, sIndex) => ({
       title: test.courseName[sIndex],
       render: (_: any, __: any, index: number) => (
@@ -69,7 +74,7 @@ export const MyTable: React.FC = () => {
         
         dataSource={test.students} // 直接使用计算出来的数组
         columns={columns}
-        rowKey="id"
+        rowKey={(record, index) => index as number}
         pagination={{
             position:['bottomRight'],
             current:current,
