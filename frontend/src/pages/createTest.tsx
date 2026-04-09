@@ -1,21 +1,16 @@
 ﻿import "./styles/chageText.css";
-import { type test ,type new_student} from "../interface";
-import { useState } from "react";
-import { FormDisabledDemo } from "../components/inupt";
 import { MyTable } from "../components/table";
 import { useStates } from "../hooks/State";
+import arrow from "../asserts/returnArrow.png"
 
 import {
   Button,
-  DatePicker,
   Form,
   Input,
   InputNumber,
   message,
 } from 'antd';
 
-
-const { RangePicker } = DatePicker;
 
 
 export function CreateText(){
@@ -45,7 +40,7 @@ export function CreateText(){
 
   }
 
-  const handleFinish =async (value) =>{
+  const handleFinish =async () =>{
     //TODO
     const result = await window.submitTest(test);
     console.log(result);
@@ -60,7 +55,7 @@ export function CreateText(){
 
     return (<div className="testContainer">
         <div className="create">创建考试</div>
-        <div className="returnArrow"><img  className="return" style={{width:"100px",}} src='/returnArrow.png' 
+        <div className="returnArrow"><img  className="return" style={{width:"100px",}} src={arrow} 
         onClick={()=>{setPage(0)}}/></div>
 
     {/* <div className='testForm'> */}

@@ -17,7 +17,7 @@ if (MSVC)
 endif()
 
 # WIN32 标志确保程序启动时不显示黑乎乎的控制台窗口
-add_executable(CMake_student_management  main.cpp main.h )
+add_executable(CMake_student_management  main.cpp main.h icon.rc )
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

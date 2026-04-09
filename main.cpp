@@ -1,6 +1,9 @@
 ﻿#include "main.h"
 
-test g_test;
+#ifdef _WIN32
+#include <windows.h>
+#include "resource.h" // 务必引入刚刚创建的资源头文件
+#endif
 
 
 int main()
@@ -193,8 +196,30 @@ int main()
 		return res.dump();
 		}); 
 	
+	std::string html = std::filesystem::absolute("dist/index.html").string();
 
-	w.navigate("http://localhost:5173");
+	std::replace(html.begin(), html.end(), '\\', '/');
+
+
+	//w.navigate("http://localhost:5173");
+	w.navigate("file:///" + html);
+
+#ifdef _WIN32
+	// 获取原生窗口句柄
+	// 【修改这里】：将 .get() 改为 .value()
+	HWND hwnd = static_cast<HWND>(w.window().value());
+
+	// 使用 LoadIcon 和 GetModuleHandle(NULL) 从当前 EXE 内部加载资源
+	HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_APP_ICON));
+
+	// 如果图标加载成功，发送消息替换窗口图标
+	if (hIcon != NULL) {
+		SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon); // 窗口左上角小图标
+		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon); // 任务栏和 Alt+Tab 大图标
+	}
+#endif
+
+
 	w.run();
 	return 0;
 }

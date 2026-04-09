@@ -1,12 +1,20 @@
 ﻿import "./styles/home.css"
-import {SearchBox} from "../components/search";
 import { Note } from "../components/textarea";
 import { useStates } from "../hooks/State";
 import { DeleteModal } from "./DeleteModal.js";
 import { useEffect, useState } from "react";
 import {readSelfNote} from "../hooks/selfNote.js"
 import { Button, message } from "antd";
- 
+
+import bg from "../asserts/bg.png"
+import qier from "../asserts/企鹅.png"
+import nns from "../asserts/nns.png"
+import icon from "../asserts/杭电icon.png"
+
+
+
+
+
 export function Home(){
     const {
         setPage,
@@ -55,19 +63,19 @@ export function Home(){
     return (<>
     <div className="homeContainer">
         <div className="homeBGContainer">
-            <img className="homeBG" src="bg.png"/>
+            <img className="homeBG" src={bg}/>
         </div>
 
         <div className="pic1">
-            <img  width={100} src="/企鹅.png"/>
+            <img  width={100} src={qier}/>
         </div>
 
         <div className="pic2">
-            <img  width={100} src="/nns.png"/>
+            <img  width={100} src={nns}/>
         </div>
 
         <div className="icon">
-            <img width={500} src="/杭电icon.png"/>
+            <img width={500} src={icon}/>
         </div>
 
 

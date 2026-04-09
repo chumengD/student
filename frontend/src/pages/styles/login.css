@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'kuangCao';
-  src: url('/fz-kuangcao.ttf') format('truetype');
+  src: url('../../asserts/fz-kuangcao.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap; /* 性能优化：在字体加载完成前先显示备用字体 */

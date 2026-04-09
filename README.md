@@ -6,7 +6,7 @@ CMake_student_management
 │  ├─ index.html 
 │  ├─ package-lock.json
 │  ├─ package.json
-│  ├─ public               图片资源
+│  ├─ public               资源
 │  │  ├─ bg.png
 │  │  ├─ close.png
 │  │  ├─ fz-kuangcao.ttf

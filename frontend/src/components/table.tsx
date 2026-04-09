@@ -74,7 +74,7 @@ export const MyTable: React.FC = () => {
         
         dataSource={test.students} // 直接使用计算出来的数组
         columns={columns}
-        rowKey={(record, index) => index as number}
+        rowKey={(_, index) => index as number}
         pagination={{
             position:['bottomRight'],
             current:current,

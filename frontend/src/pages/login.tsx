@@ -2,7 +2,8 @@ import { useState} from "react";
 import { useStates } from "../hooks/State";
 import { message } from "antd";
 import "./styles/login.css";
-
+import bg from "../asserts/bg.png"
+import icon from "../asserts/icon.png";
 
 
 export function Login(){
@@ -55,9 +56,9 @@ export function Login(){
 
     return (<div className="LoginContainer">
       <div className="content">
-    <div className="bg"><img  src="/bg.png"/></div>
+    <div className="bg"><img  src={bg}/></div>
         <div className="iconShow">
-            <img src="/icon.png"/>
+            <img src={icon}/>
         </div>
 
         <form onSubmit={handleSubmit} id="input">

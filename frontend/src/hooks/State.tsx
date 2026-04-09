@@ -1,5 +1,5 @@
 import { useState, createContext, useContext, type ReactNode } from "react";
-import { type student ,type test} from "../interface";
+import { type test} from "../interface";
 
 // const defaultStu:student ={
 //     name:"樱小路露娜",

@@ -1,10 +1,11 @@
 import React from 'react';
 import { Table,Popconfirm } from 'antd';
-import type { TableColumnsType, TableProps,} from 'antd';
+import type { TableColumnsType} from 'antd';
 import { useStates } from '../hooks/State';
 import { useState ,useMemo} from 'react';
 import { SearchBox } from '../components/search';
 import "./styles/showTest.css"
+import arrow from "../asserts/returnArrow.png";
 
 export const ShowTest: React.FC = () => {
 
@@ -78,7 +79,7 @@ export const ShowTest: React.FC = () => {
         setEditingKey('');
         };
     
-    const save = (key) => {
+    const save = () => {
         setEditingKey('');
         };
     
@@ -139,7 +140,7 @@ export const ShowTest: React.FC = () => {
 
     return editable ? (
       <span>
-        <a onClick={() => save(record.key)}>保存</a>
+        <a onClick={() => save()}>保存</a>
         <span> </span>
         <a onClick={cancel}>取消</a>
         
@@ -164,7 +165,7 @@ export const ShowTest: React.FC = () => {
 
   return (<>
    <div className='showTestName'>{test.testName}</div>
-    <div className="returnArrow"><img  className="return" style={{width:"100px",}} src='/returnArrow.png' 
+    <div className="returnArrow"><img  className="return" style={{width:"100px",}} src={arrow} 
         onClick={()=>{
             setPage(0)
             const reData = revertData(_data,courseNum)
