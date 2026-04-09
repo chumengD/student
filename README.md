@@ -1,61 +1,69 @@
-
 ```
 CMake_student_management
-├─ frontend                前端项目
-│  ├─ eslint.config.js     
-│  ├─ index.html 
+├─ frontend                    前端项目
+│  ├─ dist                     构建
+│  │  ├─ icon-DZLRYdew.ico
+│  │  └─ index.html 
+│  ├─ eslint.config.js
+│  ├─ index.html
 │  ├─ package-lock.json
 │  ├─ package.json
-│  ├─ public               资源
-│  │  ├─ bg.png
-│  │  ├─ close.png
-│  │  ├─ fz-kuangcao.ttf
-│  │  ├─ icon.png
-│  │  ├─ luna.png
-│  │  ├─ nns.png
-│  │  ├─ returnArrow.png
-│  │  ├─ 企鹅.png
-│  │  └─ 杭电icon.png
-│  ├─ README.md 
-│  ├─ src                 前端主要源码
+│  ├─ README.md
+│  ├─ src                      前端主要源码
 │  │  ├─ App.css
 │  │  ├─ App.tsx
-│  │  ├─ components        组件
-│  │  │  ├─ inupt.tsx
+│  │  ├─ asserts               图片,字体资源
+│  │  │  ├─ bg.png
+│  │  │  ├─ close.png
+│  │  │  ├─ fz-kuangcao.ttf
+│  │  │  ├─ icon.ico
+│  │  │  ├─ icon.png
+│  │  │  ├─ luna.png
+│  │  │  ├─ nns.png
+│  │  │  ├─ returnArrow.png
+│  │  │  ├─ 企鹅.png
+│  │  │  └─ 杭电icon.png
+│  │  ├─ components            组件
 │  │  │  ├─ search.tsx
 │  │  │  ├─ table.css
 │  │  │  ├─ table.tsx
 │  │  │  └─ textarea.tsx
-│  │  ├─ hooks             功能函数
+│  │  ├─ hooks                 功能性函数
 │  │  │  ├─ readNote.js
 │  │  │  ├─ selfNote.js
 │  │  │  ├─ State.tsx
 │  │  │  └─ writeNotes.js
 │  │  ├─ index.css
-│  │  ├─ interface.tsx     定义数据类型
+│  │  ├─ interface.tsx
 │  │  ├─ main.tsx
-│  │  └─ pages             主要界面实现
-│  │     ├─ createTest.tsx
-│  │     ├─ DeleteModal.tsx
-│  │     ├─ home.tsx
-│  │     ├─ login.tsx
-│  │     ├─ showTest.tsx
-│  │     └─ styles          主要界面样式 
-│  │        ├─ chageText.css
-│  │        ├─ del.css
-│  │        ├─ home.css
-│  │        ├─ login.css
-│  │        ├─ searchResult.css
-│  │        └─ showTest.css
+│  │  ├─ pages                 主要页面
+│  │  │  ├─ createTest.tsx
+│  │  │  ├─ DeleteModal.tsx
+│  │  │  ├─ home.tsx
+│  │  │  ├─ login.tsx
+│  │  │  ├─ showTest.tsx
+│  │  │  └─ styles             页面样式
+│  │  │     ├─ chageText.css
+│  │  │     ├─ del.css
+│  │  │     ├─ home.css
+│  │  │     ├─ login.css
+│  │  │     ├─ searchResult.css
+│  │  │     └─ showTest.css
+│  │  └─ window.d.ts           声明通信函数
 │  ├─ tsconfig.app.json
 │  ├─ tsconfig.json
 │  ├─ tsconfig.node.json
 │  └─ vite.config.ts
-├─ CMakeLists.txt          cmake项目配置文件
+├─ CMakeLists.txt              cmake项目配置
 ├─ CMakePresets.json
-├─ login.json
-├─ main.cpp                 后端源码
-├─ main.h                   后端头文件
+├─ icon.ico                    图标
+├─ icon.rc
+├─ main.cpp                   后端主要源码
+├─ main.h                     后端头文件
+├─ RCa17412
+├─ RCa30096
+├─ README.md                  
+├─resource.h
 └─ out
    └─build
      └─ x64-debug   
